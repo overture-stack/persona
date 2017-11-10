@@ -1,16 +1,13 @@
-const { addMockFunctionsToSchema } = require('graphql-tools');
-const bodyParser = require('body-parser');
-const express = require('express');
-const { graphiqlExpress, graphqlExpress } = require('apollo-server-express');
-const { promisify } = require('util');
-const portfinder = require('portfinder');
-const { schema } = require('./graphql');
-
-const getPort = promisify(portfinder.getPort);
-portfinder.basePort = 3232;
+import { addMockFunctionsToSchema } from 'graphql-tools';
+import * as bodyParser from 'body-parser';
+import * as express from 'express';
+import { graphiqlExpress, graphqlExpress } from 'apollo-server-express';
+import { promisify } from 'util';
+import { getPortPromise } from 'portfinder';
+import { schema } from './graphql';
 
 let app = express();
-// addMockFunctionsToSchema({ schema });
+addMockFunctionsToSchema({ schema });
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 
 // catch 404 and forward to error handler
@@ -50,7 +47,7 @@ function onError(error) {
 
 (process.env.PORT
   ? Promise.resolve(process.env.PORT)
-  : getPort()
+  : (getPortPromise as any)({ port: 3232 })
 ).then(function(port) {
   app.listen(port, () => console.log(`listening on http://localhost:${port}`));
   app.on('error', onError);

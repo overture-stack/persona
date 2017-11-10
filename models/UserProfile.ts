@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const RoleSchema = new mongoose.Schema({
+const RoleSchema = new Schema({
   type: String,
   enum: ['Patient', 'Parent', 'Clinician', 'Researcher'],
 });
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
   roles: {
     type: [RoleSchema],
     require: true,
@@ -14,4 +14,4 @@ const UserSchema = new mongoose.Schema({
   bio: 'string',
 });
 
-const UserModel = mongoose.model('UserModel', UserSchema);
+export const UserModel = model('UserModel', UserSchema);
