@@ -5,9 +5,14 @@ import { graphiqlExpress, graphqlExpress } from 'apollo-server-express';
 import { promisify } from 'util';
 import { getPortPromise } from 'portfinder';
 import { schema } from './graphql';
+import * as mongoose from 'mongoose';
+
+mongoose.Promise = global.Promise;
+
+mongoose.connect('mongodb://localhost/test', { useMongoClient: true });
 
 let app = express();
-addMockFunctionsToSchema({ schema });
+
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 
 // catch 404 and forward to error handler
