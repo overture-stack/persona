@@ -1,14 +1,14 @@
 import { Schema, model } from 'mongoose';
 
-const RoleSchema = new Schema({
+const Role = {
   type: String,
   enum: ['Patient', 'Parent', 'Clinician', 'Researcher'],
-});
+};
 
 const UserSchema = new Schema({
   roles: {
-    type: [RoleSchema],
-    require: true,
+    type: [Role],
+    required: true,
   },
   city: 'string',
   bio: 'string',
