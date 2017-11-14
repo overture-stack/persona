@@ -28,12 +28,10 @@ export const verifyJWTByApi: VerifyJWT = token =>
     .then(response => JSON.parse(response.data)) as Promise<any>;
 
 export const getJwtVerificationKey = () => {
-  return axios
-    .post(urljoin(config.egoApiRoot, '/key'), {
-      client_id: config.egoClientId,
-      client_secret: config.egoClientSecret,
-    })
-    .then(response => console.log(response.data)) as Promise<any>;
+  return axios.post(urljoin(config.egoApiRoot, '/key'), {
+    client_id: config.egoClientId,
+    client_secret: config.egoClientSecret,
+  }) as Promise<any>;
 };
 
 export const getMemoizedJwtVerificationKey = memoize(getJwtVerificationKey, {
