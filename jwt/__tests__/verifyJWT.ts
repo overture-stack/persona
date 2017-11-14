@@ -2,13 +2,9 @@ import dotenv from 'dotenv';
 import moxios from 'moxios';
 import urljoin from 'url-join';
 import config from 'config';
+import jwt from 'jsonwebtoken';
 
-import {
-  dummyVerifyJWT,
-  verifyJWTByApi,
-  getJwtVerificationKey,
-  verifyJWTBySignature,
-} from '../';
+import { dummyVerifyJWT, verifyJWTByApi, verifyJWTBySignature } from '../';
 
 const token = 'adsfasdf';
 
@@ -34,5 +30,22 @@ test('verifyJWTByApi should resolve with the parsed boolean response from the jw
   });
 
   await expect(verifyJWTByApi(token)).resolves.toEqual(true);
+  moxios.uninstall();
+});
+
+test('verify jwt via signature from api', async () => {
+  expect.assertions(1);
+  const secretOrPublicKey = 'secret';
+  const payload = {};
+  const token = jwt.sign(payload, secretOrPublicKey);
+
+  moxios.install();
+  const jwtApiPath = urljoin(config.egoApiRoot, '/key');
+  moxios.stubRequest(jwtApiPath, {
+    status: 200,
+    responseText: secretOrPublicKey,
+  });
+  await expect(verifyJWTBySignature(token)).resolves.toBeTruthy();
+
   moxios.uninstall();
 });
