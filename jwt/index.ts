@@ -1,4 +1,5 @@
 import config from 'config';
+import memoize from 'memoizee';
 import axios, { AxiosPromise } from 'axios';
 import jwt from 'jsonwebtoken';
 import urljoin from 'url-join';
@@ -35,8 +36,13 @@ export const getJwtVerificationKey = () => {
     .then(response => console.log(response.data)) as Promise<any>;
 };
 
+export const getMemoizedJwtVerificationKey = memoize(getJwtVerificationKey, {
+  maxAge: 1000 * 60 * 60 * 24,
+  preFetch: true,
+});
+
 export const verifyJWTBySignature: VerifyJWT = async token => {
-  const secretOrPublicKey = await getJwtVerificationKey();
+  const secretOrPublicKey = await getMemoizedJwtVerificationKey();
   return jwt.verify(token, secretOrPublicKey);
 };
 
