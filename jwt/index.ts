@@ -10,16 +10,19 @@ export enum JwtVerificationStrategy {
 }
 
 interface VerifyJWT {
-  (token): Promise<boolean> | AxiosPromise<boolean>;
+  (token, options?): Promise<boolean>;
 }
 
-export const dummyVerifyJWT: VerifyJWT = token => Promise.resolve(true);
+export const dummyVerifyJWT: VerifyJWT = (
+  token,
+  { resolveWith } = { resolveWith: true },
+) => Promise.resolve(resolveWith);
 
 export const verifyJWTByApi: VerifyJWT = token =>
   axios.post(urljoin(config.egoApiRoot, '/introspect'), {
     client_id: config.egoClientId,
     client_secret: config.egoClientSecret,
-  });
+  }) as Promise<any>;
 
 export const getJwtVerificationKey = () => {
   return axios
@@ -27,7 +30,7 @@ export const getJwtVerificationKey = () => {
       client_id: config.egoClientId,
       client_secret: config.egoClientSecret,
     })
-    .then(response => console.log(response.data));
+    .then(response => console.log(response.data)) as Promise<any>;
 };
 
 export const verifyJWTBySignature: VerifyJWT = async token => {
