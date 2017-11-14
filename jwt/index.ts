@@ -19,10 +19,12 @@ export const dummyVerifyJWT: VerifyJWT = (
 ) => Promise.resolve(resolveWith);
 
 export const verifyJWTByApi: VerifyJWT = token =>
-  axios.post(urljoin(config.egoApiRoot, '/introspect'), {
-    client_id: config.egoClientId,
-    client_secret: config.egoClientSecret,
-  }) as Promise<any>;
+  axios
+    .post(urljoin(config.egoApiRoot, '/introspect'), {
+      client_id: config.egoClientId,
+      client_secret: config.egoClientSecret,
+    })
+    .then(response => JSON.parse(response.data)) as Promise<any>;
 
 export const getJwtVerificationKey = () => {
   return axios

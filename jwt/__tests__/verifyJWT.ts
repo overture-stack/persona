@@ -1,3 +1,8 @@
+import dotenv from 'dotenv';
+import moxios from 'moxios';
+import urljoin from 'url-join';
+import config from 'config';
+
 import {
   dummyVerifyJWT,
   verifyJWTByApi,
@@ -16,4 +21,18 @@ test('dummyVerifyJWT should resolve `true` by default, or whatever we tell it to
       false,
     ),
   ]);
+});
+
+test('verifyJWTByApi should resolve with the parsed boolean response from the jwtApi', async () => {
+  expect.assertions(1);
+
+  moxios.install();
+  const jwtApiPath = urljoin(config.egoApiRoot, '/introspect');
+  moxios.stubRequest(jwtApiPath, {
+    status: 200,
+    responseText: 'true',
+  });
+
+  await expect(verifyJWTByApi(token)).resolves.toEqual(true);
+  moxios.uninstall();
 });
