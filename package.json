@@ -33,6 +33,7 @@
     "jsonwebtoken": "^8.1.0",
     "memoizee": "^0.4.11",
     "mongoose": "^4.13.1",
+    "ms": "^2.0.0",
     "nodemon": "^1.12.1",
     "portfinder": "^1.0.13",
     "ts-node": "^3.3.0",

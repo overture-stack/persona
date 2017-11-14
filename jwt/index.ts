@@ -1,6 +1,7 @@
 import config from 'config';
 import memoize from 'memoizee';
 import axios, { AxiosPromise } from 'axios';
+import ms from 'ms';
 import jwt from 'jsonwebtoken';
 import urljoin from 'url-join';
 
@@ -35,7 +36,7 @@ export const getJwtVerificationKey = () => {
 };
 
 export const getMemoizedJwtVerificationKey = memoize(getJwtVerificationKey, {
-  maxAge: 1000 * 60 * 60 * 24,
+  maxAge: ms('3h'),
   preFetch: true,
 });
 
