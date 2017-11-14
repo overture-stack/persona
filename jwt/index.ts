@@ -28,20 +28,22 @@ export const verifyJWTByApi: VerifyJWT = token =>
     })
     .then(response => JSON.parse(response.data)) as Promise<any>;
 
-export const getJwtVerificationKey = () => {
-  return axios.post(urljoin(config.egoApiRoot, '/key'), {
-    client_id: config.egoClientId,
-    client_secret: config.egoClientSecret,
-  }) as Promise<any>;
+export const getSecretOrPublicKey = () => {
+  return axios
+    .post(urljoin(config.egoApiRoot, '/key'), {
+      client_id: config.egoClientId,
+      client_secret: config.egoClientSecret,
+    })
+    .then(response => response.data) as Promise<any>;
 };
 
-export const getMemoizedJwtVerificationKey = memoize(getJwtVerificationKey, {
+export const getMemoizedSecretOrPublicKey = memoize(getSecretOrPublicKey, {
   maxAge: ms('3h'),
   preFetch: true,
 });
 
 export const verifyJWTBySignature: VerifyJWT = async token => {
-  const secretOrPublicKey = await getMemoizedJwtVerificationKey();
+  const secretOrPublicKey = await getMemoizedSecretOrPublicKey();
   return jwt.verify(token, secretOrPublicKey);
 };
 
