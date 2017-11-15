@@ -3,8 +3,11 @@ import * as express from 'express';
 import { graphqlExpress } from 'apollo-server-express';
 import { getPortPromise } from 'portfinder';
 import { schema } from './graphql';
+import * as cors from 'cors';
 
 const app = express();
+
+app.use(cors());
 
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 
