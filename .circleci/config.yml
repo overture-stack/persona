@@ -12,7 +12,7 @@ jobs:
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
+      - image: circleci/mongo:3.5.6
 
     working_directory: ~/repo
 
@@ -35,3 +35,14 @@ jobs:
         
       # run tests!
       - run: yarn test
+  deploy-job:
+    docker:
+      - image: circleci/node:latest
+    working_directory: ~/repo
+    steps:
+      - run:
+          name: Install
+          command: yarn install
+      - run:
+          name: Deploy if tests pass and branch is Master
+          command: <my-deploy-commands>
