@@ -11,10 +11,9 @@ const UserSchema = new Schema({
     required: true,
     unique: true,
   },
-  roles: {
-    type: [Role],
-    required: true,
-  },
+  first_name: 'String',
+  last_name: 'String',
+  roles: [Role],
   city: 'string',
   bio: 'string',
 });
