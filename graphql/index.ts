@@ -23,29 +23,18 @@ function requireSameUserMongoId(resolvers) {
     return {
       ...acc,
       [key]: resolvers[key].wrapResolve(next => async rp => {
-        const egoId = await UserModel.findOne({ _id: rp.args._id }).then(
+        const _id = rp.args._id || rp.args.record._id;
+        const egoId = await UserModel.findOne({ _id }).then(
           user => user.ego_id,
         );
 
-        if (`${egoId}` !== `${rp.context.jwt.payload.sub}`) {
+        if (rp.args.record && rp.args.record.ego_id !== egoId) {
+          throw new Error("You can't change your ego id");
+        } else if (`${egoId}` !== `${rp.context.jwt.payload.sub}`) {
           throw new Error("You can't edit someone elses profile");
         } else {
           return next(rp);
         }
-      }),
-    };
-  }, {});
-}
-
-function requireSameUserEgoId(resolvers) {
-  return Object.keys(resolvers).reduce((acc, key) => {
-    return {
-      ...acc,
-      [key]: resolvers[key].wrapResolve(next => rp => {
-        if (`${rp.args.record.ego_id}` !== `${rp.context.jwt.payload.sub}`) {
-          throw new Error("You can't edit someone elses profile");
-        }
-        return next(rp);
       }),
     };
   }, {});
@@ -62,9 +51,6 @@ GQC.rootMutation().addFields(
 
     ...requireSameUserMongoId({
       userRemove: UserTC.getResolver('removeById'),
-    }),
-
-    ...requireSameUserEgoId({
       userUpdate: UserTC.getResolver('updateById'),
     }),
   }),

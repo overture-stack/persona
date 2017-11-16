@@ -4,7 +4,7 @@ import { getPortPromise } from 'portfinder';
 import { schema } from './graphql';
 import * as cors from 'cors';
 var graphqlHTTP = require('express-graphql');
-import * as jwtExpress from 'jwt-express';
+import { decodeJWT, verifyJWT } from 'jwt';
 
 const app = express();
 app.use(cors());
@@ -12,9 +12,10 @@ app.use(cors());
 app.use(
   '/graphql',
   bodyParser.json(),
-  jwtExpress.init('secret', { cookies: false }),
-  (req, res, next) => {
-    req.jwt.valid = true; // fake valid token
+  async (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const valid = await verifyJWT(token);
+    req.jwt = { ...decodeJWT(token), valid }; // TODO: verifyJWT should return decoded jwt
     next();
   },
   graphqlHTTP({ schema }),
