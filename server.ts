@@ -1,15 +1,24 @@
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
-import { graphqlExpress } from 'apollo-server-express';
 import { getPortPromise } from 'portfinder';
 import { schema } from './graphql';
 import * as cors from 'cors';
+var graphqlHTTP = require('express-graphql');
+import * as jwtExpress from 'jwt-express';
 
 const app = express();
-
 app.use(cors());
 
-app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
+app.use(
+  '/graphql',
+  bodyParser.json(),
+  jwtExpress.init('secret', { cookies: false }),
+  (req, res, next) => {
+    req.jwt.valid = true; // fake valid token
+    next();
+  },
+  graphqlHTTP({ schema }),
+);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
