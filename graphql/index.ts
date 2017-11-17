@@ -8,11 +8,11 @@ function requireToken(resolvers) {
   return Object.keys(resolvers).reduce((acc, key) => {
     return {
       ...acc,
-      [key]: resolvers[key].wrapResolve(next => rp => {
-        if (!rp.context.jwt.valid) {
+      [key]: resolvers[key].wrapResolve(next => resolverParameters => {
+        if (!resolverParameters.context.jwt.valid) {
           throw new Error('You must provide valid token');
         }
-        return next(rp);
+        return next(resolverParameters);
       }),
     };
   }, {});
@@ -22,18 +22,24 @@ function requireSameUserMongoId(resolvers) {
   return Object.keys(resolvers).reduce((acc, key) => {
     return {
       ...acc,
-      [key]: resolvers[key].wrapResolve(next => async rp => {
-        const _id = rp.args._id || rp.args.record._id;
+      [key]: resolvers[key].wrapResolve(next => async resolverParameters => {
+        const _id =
+          resolverParameters.args._id || resolverParameters.args.record._id;
         const egoId = await UserModel.findOne({ _id }).then(
           user => user.ego_id,
         );
 
-        if (rp.args.record && rp.args.record.ego_id !== egoId) {
+        if (
+          resolverParameters.args.record &&
+          resolverParameters.args.record.ego_id !== egoId
+        ) {
           throw new Error("You can't change your ego id");
-        } else if (`${egoId}` !== `${rp.context.jwt.payload.sub}`) {
+        } else if (
+          `${egoId}` !== `${resolverParameters.context.jwt.payload.sub}`
+        ) {
           throw new Error("You can't edit someone elses profile");
         } else {
-          return next(rp);
+          return next(resolverParameters);
         }
       }),
     };
