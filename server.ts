@@ -32,7 +32,7 @@ export function start() {
     : (getPortPromise as any)({ port: 3232 })
   ).then(function(port) {
     app
-      .listen(port, () => console.log(`listening on http://localhost:${port}`))
+      .listen(port, () => console.log(`Listening on port: ${port}`))
       .on('error', error => {
         if (error.syscall !== 'listen') throw error;
 
