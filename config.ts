@@ -10,9 +10,9 @@ const config = {
   egoApiRoot: process.env.EGO_API,
   egoClientId: process.env.EGO_CLIENT_ID,
   egoClientSecret: process.env.EGO_CLIENT_SECRET,
-  mongoHost: process.env.MONGO_HOST,
-  mongoDb: process.env.MONGO_DB,
-  mongoUser: process.env.MONGO_USER as string,
-  mongoPass: process.env.MONGO_PASS as string,
+  mongoHost: process.env.MONGO_HOST || 'localhost',
+  mongoDb: process.env.MONGO_DB || 'test',
+  mongoUser: process.env.MONGO_USER,
+  mongoPass: process.env.MONGO_PASS,
 };
 export default config;
