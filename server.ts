@@ -18,7 +18,13 @@ app.use(
     req.jwt = { ...decodeJWT(token), valid }; // TODO: verifyJWT should return decoded jwt
     next();
   },
-  graphqlHTTP({ schema }),
+  graphqlHTTP((err, res) => ({
+    schema,
+    formatError: err => {
+      res.status(err.status || 500);
+      return err;
+    },
+  })),
 );
 
 // catch 404 and forward to error handler
