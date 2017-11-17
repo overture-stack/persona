@@ -1,8 +1,7 @@
-import dotenv from 'dotenv';
-import moxios from 'moxios';
-import urljoin from 'url-join';
+import * as moxios from 'moxios';
+import * as urlJoin from 'url-join';
 import config from 'config';
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 
 import { dummyVerifyJWT, verifyJWTByApi, verifyJWTBySignature } from '../';
 
@@ -23,7 +22,7 @@ test('verifyJWTByApi should resolve with the parsed boolean response from the jw
   expect.assertions(1);
 
   moxios.install();
-  const jwtApiPath = urljoin(config.egoApiRoot, '/introspect');
+  const jwtApiPath = urlJoin(config.egoApiRoot, '/introspect');
   moxios.stubRequest(jwtApiPath, {
     status: 200,
     responseText: 'true',
@@ -40,7 +39,7 @@ test('verify jwt via signature from api', async () => {
   const token = jwt.sign(payload, secretOrPublicKey);
 
   moxios.install();
-  const jwtApiPath = urljoin(config.egoApiRoot, '/key');
+  const jwtApiPath = urlJoin(config.egoApiRoot, '/key');
   moxios.stubRequest(jwtApiPath, {
     status: 200,
     responseText: secretOrPublicKey,

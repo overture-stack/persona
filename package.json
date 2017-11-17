@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node index.ts",
-    "watch": "nodemon index.ts --exec ts-node",
+    "start": "NODE_PATH=./ ts-node index.ts",
+    "watch": "NODE_PATH=./ nodemon index.ts --exec ts-node",
     "test": "NODE_PATH=./ jest .test --notify"
   },
   "repository": {
@@ -57,22 +57,9 @@
       "<rootDir>/**/__tests__/**/*.(js|jsx|ts|tsx)",
       "<rootDir>/**/?(*.)(spec|test).(js|jsx|ts|tsx)"
     ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/fixtures/",
-      "setupJest.js"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "./"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json"
-    ]
+    "testPathIgnorePatterns": ["/node_modules/", "/fixtures/", "setupJest.js"],
+    "moduleDirectories": ["node_modules", "./"],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"]
   },
   "prettier": {
     "trailingComma": "all",
