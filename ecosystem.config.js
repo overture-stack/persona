@@ -15,6 +15,7 @@ module.exports = {
       error_file: './logs/error.log',
       out_file: './logs/out.log',
       pid_file: './logs/child.pid',
+      merge_logs: true,
     },
   ],
 };
