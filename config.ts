@@ -12,7 +12,7 @@ const config = {
   egoClientSecret: process.env.EGO_CLIENT_SECRET,
   mongoHost: process.env.MONGO_HOST,
   mongoDb: process.env.MONGO_DB,
-  mongoUser: process.env.MONGO_USER,
-  mongoPass: process.env.MONGO_PASS,
+  mongoUser: process.env.MONGO_USER as string,
+  mongoPass: process.env.MONGO_PASS as string,
 };
 export default config;

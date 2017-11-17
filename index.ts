@@ -3,10 +3,12 @@ import * as mongoose from 'mongoose';
 import { start } from './server';
 
 mongoose.Promise = global.Promise;
-mongoose.connect(`mongodb://${config.mongoHost}/${config.mongoDb}`, {
-  useMongoClient: true,
-  user: config.mongoUser,
-  pass: config.mongoPass,
-});
+
+const { mongoUser, mongoPass } = config;
+const mongoUri = `mongodb://${encodeURIComponent(
+  mongoUser,
+)}:${encodeURIComponent(mongoPass)}@${config.mongoHost}/${config.mongoDb}`;
+
+mongoose.connect(mongoUri, { useMongoClient: true });
 
 start();
