@@ -1,8 +1,43 @@
 import { composeWithMongoose } from 'graphql-compose-mongoose';
 import { GQC } from 'graphql-compose';
 import { UserModel } from '../models/UserProfile';
+import { some as promiseSome } from 'bluebird';
 
 const UserTC = composeWithMongoose(UserModel, {});
+
+async function validToken({ context }) {
+  if (!context.jwt.valid) {
+    throw new Error('You must provide valid token');
+  } else {
+    return true;
+  }
+}
+
+async function isSelf({ args, context }) {
+  const _id = args._id || args.record._id;
+  const egoId = await UserModel.findOne({ _id }).then(user => user.ego_id);
+
+  if (args.record && args.record.ego_id !== egoId) {
+    throw new Error("You can't change your ego id");
+  } else if (`${egoId}` !== `${context.jwt.sub}`) {
+    throw new Error("You can't edit someone elses profile");
+  } else {
+    return true;
+  }
+}
+
+function restrict(resolver, ...restrictions) {
+  return resolver.wrapResolve(next => resolverParameters => {
+    return Promise.all(
+      restrictions.map(restriction => {
+        return promiseSome(
+          [].concat(restriction).map(r => r(resolverParameters)),
+          1,
+        );
+      }),
+    ).then(results => next(resolverParameters));
+  });
+}
 
 GQC.rootQuery().addFields({
   user: UserTC.getResolver('findById'),
@@ -10,9 +45,9 @@ GQC.rootQuery().addFields({
 });
 
 GQC.rootMutation().addFields({
-  userCreate: UserTC.getResolver('createOne'),
-  userUpdate: UserTC.getResolver('updateById'),
-  userRemove: UserTC.getResolver('removeById'),
+  userCreate: restrict(UserTC.getResolver('createOne'), validToken),
+  userRemove: restrict(UserTC.getResolver('removeById'), validToken, isSelf),
+  userUpdate: restrict(UserTC.getResolver('updateById'), validToken, isSelf),
 });
 
 export const schema = GQC.buildSchema();

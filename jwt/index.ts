@@ -1,9 +1,9 @@
 import config from 'config';
-import memoize from 'memoizee';
+import * as memoize from 'memoizee';
 import axios, { AxiosPromise } from 'axios';
-import ms from 'ms';
-import jwt from 'jsonwebtoken';
-import urljoin from 'url-join';
+import * as ms from 'ms';
+import * as jwt from 'jsonwebtoken';
+import * as urlJoin from 'url-join';
 
 export enum JwtVerificationStrategy {
   API = 'API',
@@ -15,6 +15,8 @@ interface VerifyJWT {
   (token, options?): Promise<boolean>;
 }
 
+export const decodeJWT = jwt.decode;
+
 export const dummyVerifyJWT: VerifyJWT = (
   token,
   { resolveWith } = { resolveWith: true },
@@ -22,7 +24,7 @@ export const dummyVerifyJWT: VerifyJWT = (
 
 export const verifyJWTByApi: VerifyJWT = token =>
   axios
-    .post(urljoin(config.egoApiRoot, '/introspect'), {
+    .post(urlJoin(config.egoApiRoot, '/introspect'), {
       client_id: config.egoClientId,
       client_secret: config.egoClientSecret,
     })
@@ -30,7 +32,7 @@ export const verifyJWTByApi: VerifyJWT = token =>
 
 export const getSecretOrPublicKey = () => {
   return axios
-    .post(urljoin(config.egoApiRoot, '/key'), {
+    .post(urlJoin(config.egoApiRoot, '/key'), {
       client_id: config.egoClientId,
       client_secret: config.egoClientSecret,
     })

@@ -1,15 +1,31 @@
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
-import { graphqlExpress } from 'apollo-server-express';
 import { getPortPromise } from 'portfinder';
 import { schema } from './graphql';
 import * as cors from 'cors';
+var graphqlHTTP = require('express-graphql');
+import { decodeJWT, verifyJWT } from 'jwt';
 
 const app = express();
-
 app.use(cors());
 
-app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
+app.use(
+  '/graphql',
+  bodyParser.json(),
+  async (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const valid = await verifyJWT(token);
+    req.jwt = { ...decodeJWT(token), valid }; // TODO: verifyJWT should return decoded jwt
+    next();
+  },
+  graphqlHTTP((err, res) => ({
+    schema,
+    formatError: err => {
+      res.status(err.status || 500);
+      return err;
+    },
+  })),
+);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

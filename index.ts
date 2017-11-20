@@ -1,6 +1,5 @@
 import config from './config';
 import * as mongoose from 'mongoose';
-import { start } from './server';
 
 mongoose.Promise = global.Promise;
 
@@ -19,4 +18,4 @@ mongoose.connect(mongoUri, { useMongoClient: true }, error => {
   );
 });
 
-start();
+require('./server').start();
