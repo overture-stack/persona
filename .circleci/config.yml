@@ -52,7 +52,7 @@ jobs:
           command: ssh-keyscan -H persona-api.cheapsteak.net >> ~/.ssh/known_hosts
       - run:
           name: Deploy
-          command: rsync -avhrz . oicr@persona-api.cheapsteak.net:/home/oicr/deployed
+          command: rsync -avhrz --exclude=.env --exclude=logs/ --exclude=.git/ . oicr@persona-api.cheapsteak.net:/home/oicr/deployed
       - save_cache:
           paths:
             - node_modules
