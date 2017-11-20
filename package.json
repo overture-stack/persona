@@ -6,6 +6,7 @@
   "scripts": {
     "start": "NODE_PATH=./ ts-node index.ts",
     "watch": "NODE_PATH=./ nodemon index.ts --exec ts-node",
+    "prod": "NODE_PATH=./ pm2 start ecosystem.config.js",
     "test": "NODE_PATH=./ jest .test --notify"
   },
   "repository": {
@@ -36,6 +37,7 @@
     "mongoose": "^4.13.1",
     "ms": "^2.0.0",
     "nodemon": "^1.12.1",
+    "pm2": "^2.7.2",
     "portfinder": "^1.0.13",
     "ts-node": "^3.3.0",
     "typescript": "^2.6.1",
