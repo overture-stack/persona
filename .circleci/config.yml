@@ -26,7 +26,6 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-        
       # run tests!
       - run: yarn test
   deploy-job:
@@ -39,7 +38,6 @@ jobs:
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
       - run:
           name: Install project dependencies
@@ -49,10 +47,10 @@ jobs:
           command: sudo apt install -y rsync
       - run:
           name: Ignore known host warning
-          command: ssh-keyscan -H persona-api.cheapsteak.net >> ~/.ssh/known_hosts
+          command: ssh-keyscan -H $PERSONA_DEPLOY_HOST >> ~/.ssh/known_hosts
       - run:
           name: Deploy
-          command: rsync -avhrz --exclude=.env --exclude=logs/ --exclude=.git/ . oicr@persona-api.cheapsteak.net:/home/oicr/deployed
+          command: rsync -avhrz --exclude=.env --exclude=logs/ --exclude=.git/ . $PERSONA_DEPLOY_USER@$PERSONA_DEPLOY_HOST:$PERSONA_DEPLOY_PATH
       - save_cache:
           paths:
             - node_modules
@@ -69,4 +67,4 @@ workflows:
             branches:
               only:
                 - master
-
+                - feat/circle-deploy-to-aws
