@@ -2,6 +2,11 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
+# Required environment variables:
+# PERSONA_DEPLOY_HOST_FINGERPRINT=results of ssh-keyscan
+# PERSONA_DEPLOY_HOST=
+# PERSONA_DEPLOY_USER=
+# PERSONA_DEPLOY_PATH=
 version: 2
 jobs:
   build-job:
