@@ -19,3 +19,7 @@ mongoose.connect(mongoUri, { useMongoClient: true }, error => {
 });
 
 require('./server').start();
+
+process.on('unhandledRejection', (error, p) => {
+  console.error('Unhandled Rejection at: Promise', p, 'reason:', error.stack);
+});
