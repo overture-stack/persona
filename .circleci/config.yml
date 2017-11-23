@@ -46,8 +46,8 @@ jobs:
           name: Install rsync
           command: sudo apt install -y rsync
       - run:
-          name: Ignore known host warning
-          command: ssh-keyscan -H $PERSONA_DEPLOY_HOST >> ~/.ssh/known_hosts
+          name: Add deploy-target fingerprint to known_hosts
+          command: echo "$PERSONA_DEPLOY_HOST_FINGERPRINT" >> ~/.ssh/known_hosts
       - run:
           name: Deploy
           command: rsync -avhrz --exclude=.env --exclude=logs/ --exclude=.git/ . $PERSONA_DEPLOY_USER@$PERSONA_DEPLOY_HOST:$PERSONA_DEPLOY_PATH
@@ -67,4 +67,3 @@ workflows:
             branches:
               only:
                 - master
-                - feat/circle-deploy-to-aws
