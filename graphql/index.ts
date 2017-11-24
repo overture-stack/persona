@@ -15,9 +15,9 @@ async function validToken({ context }) {
 
 async function isSelf({ args, context }) {
   const _id = args._id || args.record._id;
-  const egoId = await UserModel.findOne({ _id }).then(user => user.ego_id);
+  const egoId = await UserModel.findOne({ _id }).then(user => user.egoId);
 
-  if (args.record && args.record.ego_id !== egoId) {
+  if (args.record && args.record.egoId !== egoId) {
     throw new Error("You can't change your ego id");
   } else if (`${egoId}` !== `${context.jwt.sub}`) {
     throw new Error("You can't edit someone elses profile");
