@@ -13,7 +13,10 @@ app.use(
   '/graphql',
   bodyParser.json(),
   async (req, res, next) => {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization
+      ? req.headers.authorization.split(' ')[1]
+      : req.query.key;
+
     const valid = await verifyJWT(token);
     req.jwt = { ...decodeJWT(token), valid }; // TODO: verifyJWT should return decoded jwt
     next();
