@@ -1,0 +1,14 @@
+
+version: "2"
+services:
+  web:
+    build: .
+    ports:
+      - "$HOST_PORT:3232"
+    links:
+      - mongo
+    container_name: $CONTAINER_NAME
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
