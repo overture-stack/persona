@@ -4,7 +4,7 @@ services:
   web:
     build: .
     ports:
-      - "3232:3232"
+      - "$HOST_PORT:3232"
     links:
       - mongo
     container_name: $CONTAINER_NAME

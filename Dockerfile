@@ -12,6 +12,4 @@ WORKDIR /opt/app
 
 ADD . /opt/app
 
-EXPOSE 3232
-
 CMD ["npm", "start"]
