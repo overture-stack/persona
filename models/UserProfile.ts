@@ -6,13 +6,13 @@ const Role = {
 };
 
 const UserSchema = new Schema({
-  ego_id: {
+  egoId: {
     type: 'String',
     required: true,
     unique: true,
   },
-  first_name: 'String',
-  last_name: 'String',
+  firstName: 'String',
+  lastName: 'String',
   roles: [Role],
   city: 'string',
   bio: 'string',
