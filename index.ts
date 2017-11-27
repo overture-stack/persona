@@ -4,9 +4,11 @@ import * as mongoose from 'mongoose';
 mongoose.Promise = global.Promise;
 
 const { mongoUser, mongoPass } = config;
-const mongoUri = `mongodb://${mongoUser && mongoPass
-  ? `${encodeURIComponent(mongoUser)}:${encodeURIComponent(mongoPass)}@`
-  : ''}${config.mongoHost}/${config.mongoDb}`;
+const mongoUri = `mongodb://${
+  mongoUser && mongoPass
+    ? `${encodeURIComponent(mongoUser)}:${encodeURIComponent(mongoPass)}@`
+    : ''
+}${config.mongoHost}/${config.mongoDb}`;
 
 mongoose.connect(mongoUri, { useMongoClient: true }, error => {
   if (error) {
