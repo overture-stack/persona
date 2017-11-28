@@ -2,15 +2,15 @@ FROM mhart/alpine-node:latest
 
 ENV MONGO_HOST db
 
-ADD package.json /tmp/package.json
-
-RUN cd /tmp && npm install
-
-RUN mkdir -p /opt/app && cp -a /tmp/node_modules /opt/app/
+RUN mkdir -p /opt/app
 
 WORKDIR /opt/app
 
-ADD . /opt/app
+# copy just the package.json and install dependencies for caching
+ADD package.json ./package.json
+RUN npm install
+
+ADD . .
 
 EXPOSE 3232
 
