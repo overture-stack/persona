@@ -1778,7 +1778,7 @@ graphql-compose-mongoose@^1.9.4:
     graphql-compose-connection ">=2.5.3"
     graphql-compose-pagination ">=1.1.1"
 
-graphql-compose-pagination@>=1.1.1:
+graphql-compose-pagination@>=1.1.1, graphql-compose-pagination@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/graphql-compose-pagination/-/graphql-compose-pagination-1.1.2.tgz#84e2cab8b50fa8123f8e4e89814956e2f18be16a"
   dependencies:

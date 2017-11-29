@@ -31,6 +31,7 @@
     "graphql": "^0.11.7",
     "graphql-compose": "^2.9.6",
     "graphql-compose-mongoose": "^1.9.4",
+    "graphql-compose-pagination": "^1.1.2",
     "jsonwebtoken": "^8.1.0",
     "jwt-express": "^1.1.0",
     "memoizee": "^0.4.11",

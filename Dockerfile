@@ -6,12 +6,13 @@ RUN mkdir -p /opt/app
 
 WORKDIR /opt/app
 
-# copy just the package.json and install dependencies for caching
-ADD package.json ./package.json
-RUN npm install
+# copy just the package.json/yarn.lock and install dependencies for caching
+COPY package.json yarn.lock ./
 
-ADD . .
+RUN yarn --ignore-optional && yarn cache clean
+
+COPY . .
 
 EXPOSE 3232
 
-CMD ["npm", "start"]
+CMD npm start
