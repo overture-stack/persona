@@ -2,16 +2,20 @@ FROM mhart/alpine-node:latest
 
 ENV MONGO_HOST db
 
-ADD package.json /tmp/package.json
-
-RUN cd /tmp && npm install
-
-RUN mkdir -p /opt/app && cp -a /tmp/node_modules /opt/app/
+RUN mkdir -p /opt/app
 
 WORKDIR /opt/app
 
-ADD . /opt/app
+# copy just the package.json/yarn.lock and install dependencies for caching
+COPY package.json yarn.lock ./
+
+RUN NODE_ENV=production yarn --ignore-optional && \
+  yarn autoclean --init && \
+  yarn autoclean --force && \
+  yarn cache clean
+
+COPY . .
 
 EXPOSE 3232
 
-CMD ["npm", "start"]
+CMD yarn start
