@@ -16,6 +16,7 @@ const UserSchema = new Schema({
   roles: [Role],
   city: 'string',
   bio: 'string',
+  acceptedTerms: { type: 'boolean', default: false }
 });
 
 export const UserModel = model('UserModel', UserSchema);
