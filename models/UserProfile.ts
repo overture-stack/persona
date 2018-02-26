@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 
 const Role = {
   type: String,
-  enum: ['researcher', 'patient', 'clinician', /*'Advocacy Group'*/],
+  enum: ['researcher', 'patient', 'clinician', 'advocacygroup'],
 };
 
 const UserSchema = new Schema({
