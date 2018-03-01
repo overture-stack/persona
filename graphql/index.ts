@@ -1,6 +1,7 @@
 import { composeWithMongoose } from 'graphql-compose-mongoose';
 import { GQC } from 'graphql-compose';
 import { CreateUserModel } from '../models/UserProfile';
+import { TagsTC } from '../models/Tags';
 
 const createSchema = () => {
   const userModel = CreateUserModel();
@@ -32,6 +33,7 @@ const createSchema = () => {
   GQC.rootQuery().addFields({
     user: UserTC.getResolver('findById'),
     users: UserTC.getResolver('pagination'),
+    tags: TagsTC.getResolver('listAll'),
   });
 
   GQC.rootMutation().addFields({
