@@ -22,10 +22,11 @@
   "homepage": "https://github.com/overture-stack/persona#readme",
   "dependencies": {
     "@types/node": "^8.0.51",
+    "babel-polyfill": "^6.26.0",
     "bluebird": "^3.5.1",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
-    "ego-token-middleware": "0.0.1",
+    "ego-token-middleware": "0.0.2",
     "express": "^4.16.2",
     "express-graphql": "^0.6.11",
     "graphql": "^0.11.7",
