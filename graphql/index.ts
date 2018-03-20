@@ -51,4 +51,3 @@ GQC.rootMutation().addFields({
 });
 
 export const schema = GQC.buildSchema();
-// UserModel.remove({}).exec();
