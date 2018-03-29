@@ -7,7 +7,7 @@ if [ $1 = "dev" ]; then
   echo "Setting up backend"
   echo 'key        = "dev/kf-dev-api-personaserverservice-us-east-1-RSF"' >> dev.conf
   terraform init -backend=true -backend-config=dev.conf
-   validate -var 'image=538745987955.dkr.ecr.us-east-1.amazonaws.com/kf-api-personaserverservice:latest' \
+  terraform validate -var 'image=538745987955.dkr.ecr.us-east-1.amazonaws.com/kf-api-personaserverservice:latest' \
    -var 'task_role_arn="arn:aws:iam::538745987955:role/kfPersonaserviceApiRole-dev"' -var 'application=personaserverservice-api' \
    -var 'service_name="kf-api-personaserverservice"' -var 'owner="jenkins"' -var-file=dev.tfvar \
    -var 'vault_role="kf_personaserverservice_api_role"'
