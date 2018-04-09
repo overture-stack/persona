@@ -34,9 +34,13 @@
     "graphql-compose-mongoose": "^3.1.1",
     "graphql-compose-pagination": "^1.1.2",
     "mongoose": "^4.13.1",
+    "ms": "^2.0.0",
+    "node-vault": "^0.8.0",
     "portfinder": "^1.0.13",
     "ts-node": "^3.3.0",
-    "typescript": "^2.6.1"
+    "typescript": "^2.6.1",
+    "url-join": "^2.0.2",
+    "vault-auth-aws": "^0.1.7"
   },
   "devDependencies": {
     "@types/jest": "^21.1.6",
@@ -54,22 +58,9 @@
       "<rootDir>/**/__tests__/**/*.(js|jsx|ts|tsx)",
       "<rootDir>/**/?(*.)(spec|test).(js|jsx|ts|tsx)"
     ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/fixtures/",
-      "setupJest.js"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "./"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json"
-    ]
+    "testPathIgnorePatterns": ["/node_modules/", "/fixtures/", "setupJest.js"],
+    "moduleDirectories": ["node_modules", "./"],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"]
   },
   "prettier": {
     "trailingComma": "all",
