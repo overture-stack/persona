@@ -4,23 +4,16 @@ import { getPortPromise } from 'portfinder';
 import { schema } from './graphql';
 import * as cors from 'cors';
 var graphqlHTTP = require('express-graphql');
-import { decodeJWT, verifyJWT } from 'jwt';
+import expressEgo from 'ego-token-middleware';
 
 const app = express();
 app.use(cors());
 
+app.use(expressEgo({ required: false }));
+
 app.use(
   '/graphql',
   bodyParser.json(),
-  async (req, res, next) => {
-    const token = req.headers.authorization
-      ? req.headers.authorization.split(' ')[1]
-      : req.query.key;
-
-    const valid = await verifyJWT(token);
-    req.jwt = { ...decodeJWT(token), valid }; // TODO: verifyJWT should return decoded jwt
-    next();
-  },
   graphqlHTTP((err, res) => ({
     schema,
     formatError: err => {
