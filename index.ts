@@ -5,14 +5,14 @@ import vault from './services/vault';
 
 mongoose.Promise = global.Promise;
 
-const connectToMongo = ({ mongoUser, mongoPass }) => {
+const connectToMongoAndStart = ({ mongoUser, mongoPass }) => {
   const mongoUri = `mongodb://${
     mongoUser && mongoPass
       ? `${encodeURIComponent(mongoUser)}:${encodeURIComponent(mongoPass)}@`
       : ''
   }${config.mongoHost}/${config.mongoDb}`;
 
-  mongoose.connect(mongoUri, { useMongoClient: true }, error => {
+  return mongoose.connect(mongoUri, { useMongoClient: true }, error => {
     if (error) {
       console.error('Error Connecting to mongo', error);
       return;
@@ -20,8 +20,8 @@ const connectToMongo = ({ mongoUser, mongoPass }) => {
     console.log(
       `Connected to mongo at mongodb://${config.mongoHost}/${config.mongoDb}`,
     );
+    require('./server').start();
   });
-  // require('./server').start();
 };
 
 Promise.all(
@@ -30,11 +30,11 @@ Promise.all(
   ),
 )
   .then(([mongoUser, mongoPass]) => {
-    connectToMongo({ mongoUser, mongoPass });
+    connectToMongoAndStart({ mongoUser, mongoPass });
   })
   .catch(error => {
     console.log("couldn't get credential from vault: ", error);
-    connectToMongo(config);
+    connectToMongoAndStart(config);
   });
 
 process.on('unhandledRejection', (error, p) => {

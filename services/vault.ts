@@ -16,18 +16,15 @@ const getSecretValue = async secretPath => {
     console.log('vaultAuthentication: ', config.vaultAuthentication);
     if (config.vaultAuthentication === 'AWS_IAM') {
       // vault = require('node-vault')(options);
-      return (
-        new vaultAwsAuth({ host: options.endpoint })
-          // return new vaultAwsAuth({ host: options.endpoint })
-          .authenticate()
-          .then(success => {
-            vault = require('node-vault')({
-              ...options,
-              token: success.auth.client_token,
-            });
-            return getSecretValue(secretPath);
-          })
-      );
+      return new vaultAwsAuth({ host: options.endpoint })
+        .authenticate()
+        .then(success => {
+          vault = require('node-vault')({
+            ...options,
+            token: success.auth.client_token,
+          });
+          return getSecretValue(secretPath);
+        });
     } else {
       vault = require('node-vault')(options);
       return getSecretValue(secretPath);
