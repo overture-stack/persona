@@ -1,0 +1,27 @@
+[
+  {
+    "name": "${service_name}-${environment}-container",
+    "image": "${image}",
+    "cpu": 2048,
+    "memory": 8192,
+    "memoryReservation": 8192,
+    "essential": true,
+    "environment" : [
+    ],
+    "portMappings": [
+      {
+        "containerPort": 3232,
+        "hostPort": 3232,
+        "protocol": "tcp"
+      }
+    ],
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "${log_group_name}",
+            "awslogs-region": "${log_group_region}",
+            "awslogs-stream-prefix": "${log_group_name}"
+        }
+    }
+  }
+]
