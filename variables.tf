@@ -21,11 +21,7 @@ variable "image" {
 variable "task_role_arn" {
 }
 variable "vault_url" {}
-variable "pg_host" {}
 variable "db_secret_path" {
   default=""
-}
-variable "pg_db_name" {
-  default = ""
 }
 variable "vault_role" {}
