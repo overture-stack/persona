@@ -24,6 +24,6 @@ resource "aws_ecs_task_definition" "kf-application-task" {
   execution_role_arn    = "arn:aws:iam::538745987955:role/ecsTaskExecutionRole"
   network_mode = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu = "0.5vCPU"
-  memory = "1024"
+  cpu = "2vCPU"
+  memory = "8192"
 }
