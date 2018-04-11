@@ -11,6 +11,7 @@ const config = {
   vaultToken: process.env.VAULT_TOKEN,
   vaultAuthentication: process.env.VAULT_AUTHENTICATION,
   vaultMongoCredentialPath: process.env.VAULT_MONGO_CREDENTIAL_PATH,
+  awsIamRole: process.env.AWS_IAM_ROLE,
 };
 
 export default config;
