@@ -1,5 +1,6 @@
 import config from '../config';
 const vaultAwsAuth = require('vault-auth-aws');
+const vault = require('node-vault');
 
 const options = {
   apiVersion: 'v1',
@@ -7,11 +8,11 @@ const options = {
   token: config.vaultToken,
 };
 
-let vault: any = null;
+let vaultClient: any = null;
 
 const getSecretValue = async secretPath => {
-  if (vault !== null) {
-    return vault.read(secretPath).then(res => res.data);
+  if (vaultClient !== null) {
+    return vaultClient.read(secretPath).then(res => res.data);
   } else {
     console.log('vaultAuthentication: ', config.vaultAuthentication);
     if (config.vaultAuthentication === 'AWS_IAM') {
@@ -19,14 +20,15 @@ const getSecretValue = async secretPath => {
       return new vaultAwsAuth({ host: options.endpoint })
         .authenticate()
         .then(success => {
-          vault = require('node-vault')({
+          vaultClient = vault({
             ...options,
             token: success.auth.client_token,
           });
           return getSecretValue(secretPath);
         });
     } else {
-      vault = require('node-vault')(options);
+      vaultClient = vault(options);
+      console.log('awsAuth: ', vaultClient.awsAuth);
       return getSecretValue(secretPath);
     }
   }
