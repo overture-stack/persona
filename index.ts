@@ -24,12 +24,9 @@ const connectToMongoAndStart = ({ mongoUser, mongoPass }) => {
   });
 };
 
-Promise.all(
-  ['secret/persona_mongo_user', 'secret/persona_mongo_pass'].map(
-    vault.getSecretValue,
-  ),
-)
-  .then(([mongoUser, mongoPass]) => {
+vault
+  .getSecretValue(config.vaultMongoCredentialPath)
+  .then(({ mongoUser, mongoPass }) => {
     connectToMongoAndStart({ mongoUser, mongoPass });
   })
   .catch(error => {

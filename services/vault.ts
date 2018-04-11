@@ -11,7 +11,7 @@ let vault: any = null;
 
 const getSecretValue = async secretPath => {
   if (vault !== null) {
-    return vault.read(secretPath).then(res => res.data.value);
+    return vault.read(secretPath).then(res => res.data);
   } else {
     console.log('vaultAuthentication: ', config.vaultAuthentication);
     if (config.vaultAuthentication === 'AWS_IAM') {
