@@ -15,8 +15,10 @@ const config = {
 
   vaultToken: process.env.VAULT_TOKEN,
   vaultAuthentication: process.env.VAULT_AUTHENTICATION,
-  vaultMongoCredentialPath: process.env.VAULT_MONGO_CREDENTIAL_PATH,
   awsIamRole: process.env.AWS_IAM_ROLE,
+  vaultMongoCredentialPath: process.env.VAULT_MONGO_CREDENTIAL_PATH,
+  mongoUserNameKey: process.env.MONGO_USERNAME_KEY || 'mongodb-username',
+  mongoUserNameKey: process.env.MONGO_USERPASS_KEY || 'mongodb-pass',
 };
 
 export default config;

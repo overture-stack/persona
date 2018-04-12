@@ -26,8 +26,11 @@ const connectToMongoAndStart = ({ mongoUser, mongoPass }) => {
 
 vault
   .getSecretValue(config.vaultMongoCredentialPath)
-  .then(({ mongoUser, mongoPass }) => {
-    connectToMongoAndStart({ mongoUser, mongoPass });
+  .then(result => {
+    connectToMongoAndStart({
+      mongoUser: result[config.mongoUserNameKey],
+      mongoPass: result[config.mongoUserPassKey],
+    });
   })
   .catch(error => {
     console.log("couldn't get credential from vault: ", error);
