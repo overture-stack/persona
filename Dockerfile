@@ -1,6 +1,10 @@
 FROM mhart/alpine-node:latest
 
-ENV MONGO_HOST db
+ENV MONGO_HOST=db \
+    VAULT_ADDR=https://vault-dev.kids-first.io \
+    VAULT_MONGO_CREDENTIAL_PATH=secret/aws/oicr-personaservice-api/ \
+    VAULT_AUTHENTICATION=AWS_IAM \
+    AWS_IAM_ROLE=kfPersonaserviceApiRole-dev
 
 RUN mkdir -p /opt/app
 
