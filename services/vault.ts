@@ -13,7 +13,6 @@ const options = {
 let vaultClient: any = null;
 
 const getSecretValue = async secretPath => {
-  console.log(config.awsIamRole);
   if (vaultClient !== null) {
     return vaultClient.read(secretPath).then(res => res.data);
   } else {
