@@ -28,8 +28,8 @@ vault
   .getSecretValue(config.vaultMongoCredentialPath)
   .then(result => {
     connectToMongoAndStart({
-      mongoUser: result[config.mongoUserNameKey],
-      mongoPass: result[config.mongoUserPassKey],
+      mongoUser: result[config.mongoUsernameKey],
+      mongoPass: result[config.mongoUserpassKey],
     });
   })
   .catch(error => {
