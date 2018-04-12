@@ -33,8 +33,10 @@ vault
     });
   })
   .catch(error => {
-    console.log("couldn't get credential from vault: ", error);
-    connectToMongoAndStart(config);
+    connectToMongoAndStart({
+      mongoUser: config.mongoUser,
+      mongoPass: config.mongoPass,
+    });
   });
 
 process.on('unhandledRejection', (error, p) => {
