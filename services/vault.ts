@@ -11,12 +11,16 @@ const options = {
 let vaultClient: any = null;
 
 const getSecretValue = async secretPath => {
+  console.log(config.awsIamRole);
   if (vaultClient !== null) {
     return vaultClient.read(secretPath).then(res => res.data);
   } else {
     if (config.vaultAuthentication === 'AWS_IAM') {
       // vault = require('node-vault')(options);
-      return new vaultAwsAuth({ host: options.endpoint })
+      return new vaultAwsAuth({
+        host: options.endpoint,
+        vaultAppName: config.awsIamRole,
+      })
         .authenticate()
         .then(success => {
           vaultClient = vault({
