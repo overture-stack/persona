@@ -20,6 +20,7 @@ const getSecretValue = async secretPath => {
       return new vaultAwsAuth({
         host: options.endpoint,
         vaultAppName: config.awsIamRole,
+        ssl: true,
       })
         .authenticate()
         .then(success => {
