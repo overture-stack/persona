@@ -5,12 +5,15 @@ import createSchema from './graphql';
 import * as cors from 'cors';
 var graphqlHTTP = require('express-graphql');
 import expressEgo from 'ego-token-middleware';
+import config from '../config';
 
 const createApp = () => {
   const app = express();
   app.use(cors());
 
-  app.use(expressEgo({ required: false }));
+  app.use(
+    expressEgo({ required: config.egoApiAuthRequired, egoURL: config.egoApi }),
+  );
 
   app.use(
     '/graphql',

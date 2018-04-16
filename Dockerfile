@@ -1,6 +1,7 @@
 FROM mhart/alpine-node:latest
 
 ENV EGO_API=https://demo.ego.kfdrc.org \
+    EGO_API_AUTH_REQUIRED=true \
     MONGO_HOST=10.20.3.54 \
     MONGO_DB=persona \
     VAULT_AUTHENTICATION=AWS_IAM \
