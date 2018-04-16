@@ -26,7 +26,8 @@ pipeline {
       steps {
         slackSend (color: '#ddaa00', message: ":construction_worker: GETTING SCRIPTS:")
         sh '''
-        git clone -b persona-ecs git@github.com:overture-stack/persona.git
+        git clone git@github.com:kids-first/kf-portal-persona-config.git 
+        cd kf-portal-persona-config
         '''
       }
     }
@@ -34,7 +35,7 @@ pipeline {
      steps {
        slackSend (color: '#ddaa00', message: ":construction_worker: TESTING STARTED: (${env.BUILD_URL})")
        sh '''
-       personaservice-api/test_stage/test.sh
+       aws-ecs-service-type-1/ci-scripts/test_stage/test.sh
        '''
        slackSend (color: '#41aa58', message: ":white_check_mark: TESTING COMPLETED: (${env.BUILD_URL})")
      }
@@ -47,14 +48,14 @@ pipeline {
     stage('Build') {
       steps {
         sh '''
-        personaservice-api/build_stage/build.sh
+        aws-ecs-service-type-1/ci-scripts/build_stage/build.sh
         '''
       }
     }
     stage('Publish') {
       steps {
         sh '''
-        personaservice-api/publish_stage/publish.sh
+        aws-ecs-service-type-1/ci-scripts/publish_stage/publish.sh
         '''
         slackSend (color: '#41aa58', message: ":arrow_up: PUSHED IMAGE: (${env.BUILD_URL})")
       }
@@ -73,7 +74,7 @@ pipeline {
       steps {
         slackSend (color: '#005e99', message: ":deploying_dev: DEPLOYING TO DEVELOPMENT: (${env.BUILD_URL})")
         sh '''
-        personaservice-api/deploy_stage/deploy.sh dev
+        aws-ecs-service-type-1/ci-scripts/deploy_stage/deploy.sh dev
         '''
         slackSend (color: '#41aa58', message: ":white_check_mark: DEPLOYED TO DEVELOPMENT: (${env.BUILD_URL})")
       }
@@ -109,7 +110,7 @@ pipeline {
      steps {
        slackSend (color: '#005e99', message: ":deploying_qa: DEPLOYING TO QA: (${env.BUILD_URL})")
        sh '''
-       personaservice-api/deploy_stage/deploy.sh qa
+       aws-ecs-service-type-1/ci-scripts/deploy_stage/deploy.sh qa
        '''
        slackSend (color: '#41aa58', message: ":white_check_mark: DEPLOYED TO QA: (${env.BUILD_URL})")
      }
@@ -162,7 +163,7 @@ pipeline {
      steps {
        slackSend (color: '#005e99', message: ":deploying_prd: DEPLOYING TO PRD: (${env.BUILD_URL})")
        sh '''
-       personaservice-api/deploy_stage/deploy.sh prd
+       aws-ecs-service-type-1/ci-scripts/deploy_stage/deploy.sh prd
        '''
        slackSend (color: '#41aa58', message: ":white_check_mark: DEPLOYED TO PRD: (${env.BUILD_URL})")
      }
