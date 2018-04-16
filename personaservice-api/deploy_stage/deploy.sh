@@ -6,7 +6,7 @@ export tag_version=`git tag -l --points-at HEAD`
   
 if [ $1 = "dev" ]; then
   rm -rf aws-ecs-service-*
-  git clone git@github.com:kids-first/aws-ecs-service-type-1-module-module.git 
+  git clone git@github.com:kids-first/aws-ecs-service-type-1-module.git 
   cd aws-ecs-service-type-1-module/
   echo "Setting up backend"
   cp ../dev.tfvar ../dev.conf .
@@ -25,7 +25,7 @@ fi
 
 if [ $1 = "qa" ]; then
   rm -rf aws-ecs-service-*
-  git clone git@github.com:kids-first/aws-ecs-service-type-1-module-module.git 
+  git clone git@github.com:kids-first/aws-ecs-service-type-1-module.git 
   cd aws-ecs-service-type-1-module/
   echo "Setting up backend"
   cp ../qa.tfvar ../qa.conf .
