@@ -1,7 +1,8 @@
 FROM mhart/alpine-node:latest
 
 ENV EGO_API=https://demo.ego.kfdrc.org \
-    MONGO_HOST=db \
+    MONGO_HOST=10.20.3.54 \
+    MONGO_DB=persona \
     VAULT_AUTHENTICATION=AWS_IAM \
     AWS_IAM_ROLE=kf_personaservice_api_role \
     VAULT_ENDPOINT_PROTOCAL=https \
