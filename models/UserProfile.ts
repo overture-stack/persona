@@ -1,40 +1,50 @@
-import { Schema, model } from 'mongoose';
-
 const Role = {
   type: String,
   enum: ['research', 'community', 'health'],
 };
 
-const UserSchema = new Schema({
-  //ego fields
-  egoId: {
-    type: 'String',
-    required: true,
-    unique: true,
-  },
-  email: 'String',
+let userModel: any = null;
 
-  acceptedTerms: 'boolean',
+export const CreateUserModel = () => {
+  if (userModel) {
+    return userModel;
+  }
 
-  //about me fields
-  roles: [Role],
-  title: 'String',
-  firstName: 'String',
-  lastName: 'String',
-  jobTitle: 'String',
-  institution: 'String',
-  city: 'String',
-  state: 'String',
-  country: 'String',
+  const mongoose = require('mongoose');
 
-  // a bit about yourself
-  bio: 'String',
-  story: 'String',
+  const UserSchema = new mongoose.Schema({
+    //ego fields
+    egoId: {
+      type: 'String',
+      required: true,
+      unique: true,
+    },
+    email: 'String',
 
-  // research interests
-  website: 'String',
-  googleScholarId: 'String',
-  interests: ['String'],
-});
+    acceptedTerms: 'boolean',
 
-export const UserModel = model('UserModel', UserSchema);
+    //about me fields
+    roles: [Role],
+    title: 'String',
+    firstName: 'String',
+    lastName: 'String',
+    jobTitle: 'String',
+    institution: 'String',
+    city: 'String',
+    state: 'String',
+    country: 'String',
+
+    // a bit about yourself
+    bio: 'String',
+    story: 'String',
+
+    // research interests
+    website: 'String',
+    googleScholarId: 'String',
+    interests: ['String'],
+  });
+
+  userModel = mongoose.model('UserModel', UserSchema);
+
+  return userModel;
+};
