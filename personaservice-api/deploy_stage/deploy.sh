@@ -6,8 +6,8 @@ export tag_version=`git tag -l --points-at HEAD`
   
 if [ $1 = "dev" ]; then
   rm -rf aws-ecs-service-*
-  git clone git@github.com:kids-first/aws-ecs-service-type-1-module.git 
-  cd aws-ecs-service-type-1/
+  git clone git@github.com:kids-first/aws-ecs-service-type-1-module-module.git 
+  cd aws-ecs-service-type-1-module/
   echo "Setting up backend"
   cp ../dev.tfvar ../dev.conf .
   echo "Setting up backend"
@@ -25,8 +25,8 @@ fi
 
 if [ $1 = "qa" ]; then
   rm -rf aws-ecs-service-*
-  git clone git@github.com:kids-first/aws-ecs-service-type-1-module.git 
-  cd aws-ecs-service-type-1/
+  git clone git@github.com:kids-first/aws-ecs-service-type-1-module-module.git 
+  cd aws-ecs-service-type-1-module/
   echo "Setting up backend"
   cp ../qa.tfvar ../qa.conf .
   echo "Setting up backend"
@@ -47,6 +47,6 @@ if [ $1 = "prd" ]; then
       --db-snapshot-identifier "kf-dataservice-$GIT_COMMIT"
     rm -rf aws-ecs-service-*
   rm -rf aws-ecs-service-*
-  git clone git@github.com:kids-first/aws-ecs-service-type-1.git
-  cd aws-ecs-service-type-1/
+  git clone git@github.com:kids-first/aws-ecs-service-type-1-module.git
+  cd aws-ecs-service-type-1-module/
   echo "Setting up backend"
