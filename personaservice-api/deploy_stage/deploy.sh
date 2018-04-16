@@ -4,6 +4,7 @@ if [ $1 = "dev" ]; then
   rm -rf aws-ecs-service-*
   git clone git@github.com:kids-first/aws-ecs-service-type-1.git
   cd aws-ecs-service-type-1/
+  ls -ls
   echo "Setting up backend"
   echo 'key        = "dev/kf-dev-api-personaservice-us-east-1-RSF"' >> dev.conf
   terraform init -backend=true -backend-config=dev.conf
