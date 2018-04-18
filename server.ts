@@ -5,7 +5,7 @@ import createSchema from './graphql';
 import * as cors from 'cors';
 var graphqlHTTP = require('express-graphql');
 import expressEgo from 'ego-token-middleware';
-import config from '../config';
+import config from './config';
 
 const createApp = () => {
   const app = express();
