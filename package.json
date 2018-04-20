@@ -23,16 +23,15 @@
   "dependencies": {
     "@types/node": "^8.0.51",
     "babel-polyfill": "^6.26.0",
-    "bluebird": "^3.5.1",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
-    "ego-token-middleware": "0.0.5",
+    "ego-token-middleware": "0.0.6",
     "express": "^4.16.2",
     "express-graphql": "^0.6.11",
     "graphql": "^0.11.7",
-    "graphql-compose": "^3.0.6",
-    "graphql-compose-mongoose": "^3.1.1",
-    "graphql-compose-pagination": "^1.1.2",
+    "graphql-compose": "^4.0.1",
+    "graphql-compose-mongoose": "^4.1.0",
+    "graphql-compose-pagination": "^3.0.1",
     "mongoose": "^4.13.1",
     "ms": "^2.0.0",
     "node-vault": "^0.8.0",
@@ -58,22 +57,9 @@
       "<rootDir>/**/__tests__/**/*.(js|jsx|ts|tsx)",
       "<rootDir>/**/?(*.)(spec|test).(js|jsx|ts|tsx)"
     ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/fixtures/",
-      "setupJest.js"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "./"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json"
-    ]
+    "testPathIgnorePatterns": ["/node_modules/", "/fixtures/", "setupJest.js"],
+    "moduleDirectories": ["node_modules", "./"],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"]
   },
   "prettier": {
     "trailingComma": "all",
