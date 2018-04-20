@@ -24,20 +24,22 @@ const connectToMongoAndStart = ({ mongoUser, mongoPass }) => {
   });
 };
 
-vault
-  .getSecretValue(config.vaultMongoCredentialPath)
-  .then(result => {
-    connectToMongoAndStart({
-      mongoUser: result[config.mongoUsernameKey],
-      mongoPass: result[config.mongoUserpassKey],
-    });
-  })
-  .catch(error => {
-    connectToMongoAndStart({
-      mongoUser: config.mongoUser,
-      mongoPass: config.mongoPass,
-    });
+if (config.vaultMongoCredentialPath) {
+  vault
+    .getSecretValue(config.vaultMongoCredentialPath)
+    .then(result => {
+      connectToMongoAndStart({
+        mongoUser: result[config.mongoUsernameKey],
+        mongoPass: result[config.mongoUserpassKey],
+      });
+    })
+    .catch(error => console.log(error));
+} else {
+  connectToMongoAndStart({
+    mongoUser: config.mongoUser,
+    mongoPass: config.mongoPass,
   });
+}
 
 process.on('unhandledRejection', (error, p) => {
   console.error('Unhandled Rejection at: Promise', p, 'reason:', error.stack);
