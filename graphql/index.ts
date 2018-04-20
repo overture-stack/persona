@@ -1,22 +1,17 @@
 import { composeWithMongoose } from 'graphql-compose-mongoose';
 import { GQC } from 'graphql-compose';
 import { CreateUserModel } from '../models/UserProfile';
-import { some as promiseSome } from 'bluebird';
 
 const createSchema = () => {
   const userModel = CreateUserModel();
 
   const UserTC = composeWithMongoose(userModel, {});
 
-  async function validToken({ context }) {
-    if (!context.jwt.valid) {
-      throw new Error('You must provide valid token');
-    } else {
-      return true;
-    }
-  }
+  const validToken = async ({ context }) => {
+    if (!context.jwt.valid) throw new Error('You must provide valid token');
+  };
 
-  async function isSelf({ args, context }) {
+  const isSelf = async ({ args, context }) => {
     const _id = args._id || args.record._id;
     const egoId = await userModel.findOne({ _id }).then(user => user.egoId);
 
@@ -24,23 +19,15 @@ const createSchema = () => {
       throw new Error("You can't change your ego id");
     } else if (`${egoId}` !== `${context.jwt.sub}`) {
       throw new Error("You can't edit someone elses profile");
-    } else {
-      return true;
     }
-  }
+  };
 
-  function restrict(resolver, ...restrictions) {
-    return resolver.wrapResolve(next => resolverParameters => {
-      return Promise.all(
-        restrictions.map(restriction => {
-          return promiseSome(
-            [].concat(restriction).map(r => r(resolverParameters)),
-            1,
-          );
-        }),
-      ).then(results => next(resolverParameters));
+  const restrict = (resolver, ...restrictions) => {
+    return resolver.wrapResolve(next => async rp => {
+      await Promise.all(restrictions.map(r => r(rp)));
+      return next(rp);
     });
-  }
+  };
 
   GQC.rootQuery().addFields({
     user: UserTC.getResolver('findById'),
