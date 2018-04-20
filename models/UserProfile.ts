@@ -42,6 +42,15 @@ export const CreateUserModel = () => {
     website: 'String',
     googleScholarId: 'String',
     interests: ['String'],
+
+    sets: [
+      {
+        name: 'String',
+        size: 'String',
+        type: { type: 'String' },
+        setId: 'String',
+      },
+    ],
   });
 
   userModel = mongoose.model('UserModel', UserSchema);
