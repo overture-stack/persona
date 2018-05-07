@@ -25,7 +25,7 @@
     "babel-polyfill": "^6.26.0",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
-    "ego-token-middleware": "0.0.6",
+    "ego-token-middleware": "0.0.7",
     "express": "^4.16.2",
     "express-graphql": "^0.6.11",
     "graphql": "^0.11.7",
@@ -57,9 +57,22 @@
       "<rootDir>/**/__tests__/**/*.(js|jsx|ts|tsx)",
       "<rootDir>/**/?(*.)(spec|test).(js|jsx|ts|tsx)"
     ],
-    "testPathIgnorePatterns": ["/node_modules/", "/fixtures/", "setupJest.js"],
-    "moduleDirectories": ["node_modules", "./"],
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"]
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/fixtures/",
+      "setupJest.js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "./"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ]
   },
   "prettier": {
     "trailingComma": "all",

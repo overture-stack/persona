@@ -5,6 +5,8 @@ dotenv.config();
 const config = {
   egoApi: process.env.EGO_API,
   egoApiAuthRequired: process.env.EGO_API_AUTH_REQUIRED === 'true',
+  egoApiRequireUserApproval:
+    process.env.EGO_API_USER_APPROVAL_REQUIRED === 'true',
 
   mongoHost: process.env.MONGO_HOST || 'localhost',
   mongoDb: process.env.MONGO_DB || 'test',
