@@ -12,7 +12,11 @@ const createApp = () => {
   app.use(cors());
 
   app.use(
-    expressEgo({ required: config.egoApiAuthRequired, egoURL: config.egoApi }),
+    expressEgo({
+      required: config.egoApiAuthRequired,
+      egoURL: config.egoApi,
+      requireUserApproval: config.egoApiRequireUserApproval,
+    }),
   );
 
   app.use(
