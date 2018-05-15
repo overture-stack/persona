@@ -1,5 +1,6 @@
 import { composeWithMongoose } from 'graphql-compose-mongoose';
 import { GQC } from 'graphql-compose';
+import { get } from 'lodash';
 import { CreateUserModel } from '../models/UserProfile';
 
 const createSchema = () => {
@@ -22,6 +23,15 @@ const createSchema = () => {
     }
   };
 
+  const isAdmin = async ({ context: { jwt } }) => {
+    const roles = get(jwt, 'context.user.roles') || [];
+    if (!roles.includes('ADMIN')) {
+      throw new Error(
+        "You do not have the right permission to read others' profile",
+      );
+    }
+  };
+
   const restrict = (resolver, ...restrictions) => {
     return resolver.wrapResolve(next => async rp => {
       await Promise.all(restrictions.map(r => r(rp)));
@@ -31,7 +41,7 @@ const createSchema = () => {
 
   GQC.rootQuery().addFields({
     user: UserTC.getResolver('findById'),
-    users: UserTC.getResolver('pagination'),
+    users: restrict(UserTC.getResolver('pagination'), isAdmin),
   });
 
   GQC.rootMutation().addFields({
