@@ -27,7 +27,7 @@ const createSchema = () => {
     const roles = get(jwt, 'context.user.roles') || [];
     if (!roles.includes('ADMIN')) {
       throw new Error(
-        "You do not have the right permission to read others' profile",
+        'Access denied. You need Admin privileges to access this resource',
       );
     }
   };
