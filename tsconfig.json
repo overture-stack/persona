@@ -18,7 +18,11 @@
     "noUnusedLocals": false,
     "baseUrl": "./",
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": false
+    "allowSyntheticDefaultImports": false,
+    "paths": {
+      "models/*": ["./models/*"],
+      "graphql/*": ["./graphql/*"]
+    }
   },
   "exclude": [
     "node_modules",
