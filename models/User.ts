@@ -1,18 +1,12 @@
+import * as mongoose from 'mongoose';
+
 const Role = {
   type: String,
   enum: ['research', 'community', 'health'],
 };
 
-let userModel: any = null;
-
-export const CreateUserModel = () => {
-  if (userModel) {
-    return userModel;
-  }
-
-  const mongoose = require('mongoose');
-
-  const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema(
+  {
     //ego fields
     egoId: {
       type: 'String',
@@ -51,9 +45,10 @@ export const CreateUserModel = () => {
         setId: 'String',
       },
     ],
-  });
+  },
+  { collection: 'usermodels' },
+);
 
-  userModel = mongoose.model('UserModel', UserSchema);
+const UserModel = mongoose.model('UserModel', UserSchema);
 
-  return userModel;
-};
+export default UserModel;

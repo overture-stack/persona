@@ -3,9 +3,14 @@ import * as express from 'express';
 import { getPortPromise } from 'portfinder';
 import createSchema from './graphql';
 import * as cors from 'cors';
-var graphqlHTTP = require('express-graphql');
+import * as graphqlHTTP from 'express-graphql';
 import expressEgo from 'ego-token-middleware';
-import config from './config';
+
+import {
+  egoApiAuthRequired,
+  egoApi,
+  egoApiRequireUserApproval,
+} from './config';
 
 const createApp = () => {
   const app = express();
@@ -13,9 +18,9 @@ const createApp = () => {
 
   app.use(
     expressEgo({
-      required: config.egoApiAuthRequired,
-      egoURL: config.egoApi,
-      requireUserApproval: config.egoApiRequireUserApproval,
+      required: egoApiAuthRequired,
+      egoURL: egoApi,
+      requireUserApproval: egoApiRequireUserApproval,
     }),
   );
 
