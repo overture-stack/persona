@@ -27,7 +27,7 @@ npm start
 Persona uses the `migrate-mongo` package to perform DB migrations: https://www.npmjs.com/package/migrate-mongo
 
 To use `migrate-mongo` run `npm run migrate -- <<migrate-mongo-opts>>`. Do not run `migrate-mongo` on its own;
-as persona uses vault for mongo authentication and therefore needs a special build process to configure `migrate-mongo`
+persona uses vault for mongo authentication and therefore needs a special build process to configure `migrate-mongo`
 that is contained within the `migrate` script.
 
 ## docker
