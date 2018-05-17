@@ -38,7 +38,8 @@ const restrict = (resolver, ...restrictions) => {
 
 const createSchema = () => {
   GQC.rootQuery().addFields({
-    user: UserTC.getResolver('findById'),
+    self: restrict(UserTC.getResolver('self'), validToken),
+    user: restrict(UserTC.getResolver('findById'), isAdmin),
     users: restrict(UserTC.getResolver('pagination'), isAdmin),
     tags: TagsTC.getResolver('listAll'),
   });
