@@ -1,13 +1,19 @@
-import config from '../config';
-const vaultAwsAuth = require('vault-auth-aws');
-const vault = require('node-vault');
+import vaultAuthAws from 'vault-auth-aws';
+import vault from 'node-vault';
+import {
+  awsIamRole,
+  vaultAuthentication,
+  vaultApiVersion,
+  vaultEndpointProtocol,
+  vaultHost,
+  vaultPort,
+  vaultToken,
+} from '../config';
 
 const options = {
-  apiVersion: config.vaultApiVersion,
-  endpoint: `${config.vaultEndpointProtocal}://${config.vaultHost}:${
-    config.vaultPort
-  }`,
-  token: config.vaultToken,
+  apiVersion: vaultApiVersion,
+  endpoint: `${vaultEndpointProtocol}://${vaultHost}:${vaultPort}`,
+  token: vaultToken,
 };
 
 let vaultClient: any = null;
@@ -16,12 +22,12 @@ const getSecretValue = async secretPath => {
   if (vaultClient !== null) {
     return vaultClient.read(secretPath).then(res => res.data);
   } else {
-    if (config.vaultAuthentication === 'AWS_IAM') {
-      return new vaultAwsAuth({
-        host: config.vaultHost,
-        vaultAppName: config.awsIamRole,
-        port: config.vaultPort,
-        ssl: config.vaultEndpointProtocal === 'https',
+    if (vaultAuthentication === 'AWS_IAM') {
+      return new vaultAuthAws({
+        host: vaultHost,
+        vaultAppName: awsIamRole,
+        port: vaultPort,
+        ssl: vaultEndpointProtocol === 'https',
       })
         .authenticate()
         .then(success => {
@@ -38,6 +44,4 @@ const getSecretValue = async secretPath => {
   }
 };
 
-export default {
-  getSecretValue,
-};
+export default { getSecretValue };

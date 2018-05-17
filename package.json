@@ -7,7 +7,9 @@
     "start": "NODE_PATH=./ ts-node index.ts",
     "watch": "NODE_PATH=./ nodemon index.ts --exec ts-node",
     "prod": "NODE_PATH=./ pm2 start ecosystem.config.js",
-    "test": "NODE_PATH=./ jest .test --notify"
+    "test": "NODE_PATH=./ jest .test --notify",
+    "migrate":
+      "cd migrations && OUT_FILE='dist/config.js' ts-node writeConfig.ts && migrate-mongo -f 'dist/config.js'"
   },
   "repository": {
     "type": "git",
@@ -33,6 +35,7 @@
     "graphql-compose-mongoose": "^4.1.0",
     "graphql-compose-pagination": "^3.0.1",
     "lodash": "^4.17.10",
+    "migrate-mongo": "^3.0.2",
     "mongoose": "^4.13.1",
     "ms": "^2.0.0",
     "node-vault": "^0.8.0",
@@ -58,22 +61,9 @@
       "<rootDir>/**/__tests__/**/*.(js|jsx|ts|tsx)",
       "<rootDir>/**/?(*.)(spec|test).(js|jsx|ts|tsx)"
     ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/fixtures/",
-      "setupJest.js"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "./"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json"
-    ]
+    "testPathIgnorePatterns": ["/node_modules/", "/fixtures/", "setupJest.js"],
+    "moduleDirectories": ["node_modules", "./"],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"]
   },
   "prettier": {
     "trailingComma": "all",
