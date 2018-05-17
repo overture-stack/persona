@@ -46,7 +46,7 @@ const createSchema = () => {
 
   GQC.rootMutation().addFields({
     userCreate: restrict(UserTC.getResolver('createOne'), validToken),
-    userRemove: restrict(UserTC.getResolver('removeById'), validToken, isSelf),
+    userRemove: restrict(UserTC.getResolver('removeById'), validToken, isAdmin),
     userUpdate: restrict(UserTC.getResolver('updateById'), validToken, isSelf),
   });
 
