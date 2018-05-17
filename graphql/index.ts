@@ -40,7 +40,6 @@ const createSchema = () => {
   GQC.rootQuery().addFields({
     user: UserTC.getResolver('findById'),
     users: restrict(UserTC.getResolver('pagination'), isAdmin),
-    users: UserTC.getResolver('pagination'),
     tags: TagsTC.getResolver('listAll'),
   });
 
