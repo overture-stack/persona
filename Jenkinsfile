@@ -1,2 +1,2 @@
 @Library("oicr") _
-persona-api{}
+persona_api{}
