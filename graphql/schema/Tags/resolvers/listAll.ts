@@ -2,7 +2,12 @@ import { get } from 'lodash';
 
 import UserModel from 'models/User';
 
-const fetchUserInterestAggs = ({ filter, skip, size }) =>
+const fetchUserInterestAggs = ({
+  filter,
+  skip,
+  size,
+  regexp = new RegExp(`.*${filter}.*`, 'gi'),
+}) =>
   new Promise<any>((res, rej) =>
     UserModel.collection.aggregate(
       [
@@ -10,11 +15,7 @@ const fetchUserInterestAggs = ({ filter, skip, size }) =>
           ? [
               {
                 $match: {
-                  $text: {
-                    $search: filter,
-                    $caseSensitive: false,
-                    $diacriticSensitive: false,
-                  },
+                  interests: { $regex: regexp, $options: 'gi' },
                 },
               },
             ]
