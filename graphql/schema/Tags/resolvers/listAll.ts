@@ -2,28 +2,17 @@ import { get } from 'lodash';
 
 import UserModel from 'models/User';
 
-const fetchUserInterestAggs = ({
-  filter,
-  skip,
-  size,
-  regexp = new RegExp(`.*${filter}.*`, 'gi'),
-}) =>
+const matchQuery = filter => ({
+  $match: { interests: new RegExp(`.*${filter}.*`, 'gi') },
+});
+
+const fetchUserInterestAggs = ({ filter, skip, size }) =>
   new Promise<any>((res, rej) =>
     UserModel.collection.aggregate(
       [
-        ...(filter
-          ? [
-              {
-                $match: {
-                  interests: { $regex: regexp, $options: 'gi' },
-                },
-              },
-            ]
-          : []),
+        ...(filter ? [matchQuery(filter)] : []),
         { $unwind: '$interests' },
-        ...(filter
-          ? [{ $match: { interests: new RegExp(`.*${filter}.*`, 'gi') } }]
-          : []),
+        ...(filter ? [matchQuery(filter)] : []),
         {
           $facet: {
             count: [{ $sortByCount: '$interests' }, { $count: 'interests' }],
