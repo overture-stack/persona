@@ -1,5 +1,5 @@
-import vaultAuthAws from 'vault-auth-aws';
-import vault from 'node-vault';
+import * as vaultAuthAws from 'vault-auth-aws';
+import * as vault from 'node-vault';
 import {
   awsIamRole,
   vaultAuthentication,
