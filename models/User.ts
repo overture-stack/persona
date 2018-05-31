@@ -16,6 +16,8 @@ const UserSchema = new mongoose.Schema(
     email: 'String',
 
     acceptedTerms: 'boolean',
+    acceptedKfOptIn: 'boolean',
+    acceptedNihOptIn: 'boolean',
 
     //about me fields
     roles: [Role],
