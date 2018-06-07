@@ -5,6 +5,7 @@ import createSchema from './graphql';
 import * as cors from 'cors';
 import * as graphqlHTTP from 'express-graphql';
 import expressEgo from 'ego-token-middleware';
+import subscriptionHander from './services/subscriptionHandler';
 
 import {
   egoApiAuthRequired,
@@ -34,6 +35,13 @@ const createApp = () => {
         return err;
       },
     })),
+  );
+
+  app.post(
+    '/subscribe',
+    bodyParser.json({ limit: '50mb' }),
+    bodyParser.urlencoded({ extended: true }),
+    subscriptionHander,
   );
 
   // catch 404 and forward to error handler
