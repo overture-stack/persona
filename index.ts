@@ -1,6 +1,6 @@
 import 'babel-polyfill';
 
-import connect from 'services/mongo';
+import mongoConnect from 'services/mongo';
 import { start } from './server';
 
 process.on('unhandledRejection', (error, p) => {
@@ -8,7 +8,7 @@ process.on('unhandledRejection', (error, p) => {
 });
 
 const main = async () => {
-  await connect();
+  await Promise.all([mongoConnect()]);
   start();
 };
 

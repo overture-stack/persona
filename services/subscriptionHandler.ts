@@ -1,5 +1,6 @@
 import * as md5 from 'crypto-js/md5';
 import * as fetch from 'node-fetch';
+import vault from './vault';
 
 const newMailchimpSubscription = async ({ user }) => {
   // mailchimp configs. bypassing env.js so it's easier to move around later
@@ -36,7 +37,7 @@ const sendNihSubscriptionEmail = async ({ user }) => {
   const nihEmail = process.env.NIH_SUBSCRIPTION_EMAIL;
 };
 
-export default async (req, res) => {
+export default () => async (req, res) => {
   const { user = {} } = req.body;
   const { acceptedKfOptIn, acceptedNihOptIn } = user;
 

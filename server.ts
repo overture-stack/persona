@@ -41,7 +41,7 @@ const createApp = () => {
     '/subscribe',
     bodyParser.json({ limit: '50mb' }),
     bodyParser.urlencoded({ extended: true }),
-    subscriptionHander,
+    subscriptionHander(),
   );
 
   // catch 404 and forward to error handler
