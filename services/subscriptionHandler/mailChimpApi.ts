@@ -1,12 +1,16 @@
 import * as md5 from 'crypto-js/md5';
 import * as fetch from 'node-fetch';
-import vault from './vault';
+import vault from '../vault';
 
-const newMailchimpSubscription = async ({ user }) => {
-  // mailchimp configs. bypassing env.js so it's easier to move around later
-  const kfMailchimpListId = process.env.KF_MAILCHIMP_LIST_ID || '';
-  const kfMailchimpApiKey = process.env.KF_MAILCHIMP_API_KEY || '';
-  const kfMailchimpUserName = process.env.KF_MAILCHIMP_USERNAME || '';
+let config = {
+  vaultSecretPath: process.env.VAULT_APP_SECRET_PATH || 'secret/app',
+  kfMailchimpListId: process.env.KF_MAILCHIMP_LIST_ID || '',
+  kfMailchimpApiKey: process.env.KF_MAILCHIMP_API_KEY || '',
+  kfMailchimpUserName: process.env.KF_MAILCHIMP_USERNAME || '',
+};
+
+export const newMailchimpSubscription = async ({ user }) => {
+  const { kfMailchimpListId, kfMailchimpApiKey, kfMailchimpUserName } = config;
 
   const hash = md5(user.email.toLowerCase()).toString();
   const mailChimpDataCenter = kfMailchimpApiKey.split('-')[1];
@@ -32,20 +36,7 @@ const newMailchimpSubscription = async ({ user }) => {
   console.log('response: ', response);
 };
 
-const sendNihSubscriptionEmail = async ({ user }) => {
-  // nih email configs
-  const nihEmail = process.env.NIH_SUBSCRIPTION_EMAIL;
-};
-
-export default () => async (req, res) => {
-  const { user = {} } = req.body;
-  const { acceptedKfOptIn, acceptedNihOptIn } = user;
-
-  if (acceptedKfOptIn) {
-    await newMailchimpSubscription({ user });
-  }
-  if (acceptedNihOptIn) {
-    sendNihSubscriptionEmail({ user });
-  }
-  res.end();
-};
+export const retrieveMailchimpSecret = () =>
+  vault.getSecretValue(config.vaultSecretPath).then(data => {
+    config = { ...config, ...data };
+  });

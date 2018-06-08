@@ -1,6 +1,7 @@
 import 'babel-polyfill';
 
 import mongoConnect from 'services/mongo';
+import { retrieveMailchimpSecret } from './services/subscriptionHandler';
 import { start } from './server';
 
 process.on('unhandledRejection', (error, p) => {
@@ -8,7 +9,7 @@ process.on('unhandledRejection', (error, p) => {
 });
 
 const main = async () => {
-  await Promise.all([mongoConnect()]);
+  await Promise.all([mongoConnect(), retrieveMailchimpSecret()]);
   start();
 };
 
