@@ -14,4 +14,4 @@ export default () => async (req, res) => {
   res.end();
 };
 
-export { retrieveMailchimpSecret } from './mailChimpApi';
+export { retrieveMailchimpSecrets } from './mailChimpApi';

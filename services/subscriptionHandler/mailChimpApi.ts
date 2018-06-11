@@ -3,8 +3,9 @@ import * as fetch from 'node-fetch';
 import vault from '../vault';
 
 // TODO: hook into global config, this is kept self-contained for easier refactoring if needed
+const vaultSecretPath = process.env.VAULT_APP_SECRET_PATH || 'secret/app';
+
 let config = {
-  vaultSecretPath: process.env.VAULT_APP_SECRET_PATH || 'secret/app',
   kfMailchimpListId: process.env.KF_MAILCHIMP_LIST_ID || '',
   kfMailchimpApiKey: process.env.KF_MAILCHIMP_API_KEY || '',
   kfMailchimpUserName: process.env.KF_MAILCHIMP_USERNAME || '',
@@ -35,9 +36,9 @@ export const newMailchimpSubscription = async ({ user }) => {
   ).then(res => res.json());
 };
 
-export const retrieveMailchimpSecret = () =>
+export const retrieveMailchimpSecrets = () =>
   vault
-    .getSecretValue(config.vaultSecretPath)
+    .getSecretValue(vaultSecretPath)
     .then(({ kfMailchimpApiKey, kfMailchimpUserName, kfMailchimpListId }) => {
       config = {
         ...config,
