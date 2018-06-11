@@ -1,47 +1,46 @@
 import * as vaultAuthAws from 'vault-auth-aws';
 import * as vault from 'node-vault';
+
 import {
-  awsIamRole,
-  vaultAuthentication,
-  vaultApiVersion,
   vaultEndpointProtocol,
   vaultHost,
   vaultPort,
+  vaultApiVersion,
   vaultToken,
+  vaultAuthentication,
+  vaultAwsIamRole,
+  vaultMongoCredentialPath,
+  vaultMongoUsernameKey,
+  vaultMongoUserpassKey,
 } from '../config';
 
-const options = {
-  apiVersion: vaultApiVersion,
-  endpoint: `${vaultEndpointProtocol}://${vaultHost}:${vaultPort}`,
-  token: vaultToken,
+const getCredentials = async () => {
+  if (!vaultMongoCredentialPath) return false;
+
+  const token =
+    vaultAuthentication === 'AWS_IAM'
+      ? await new vaultAuthAws({
+          host: vaultHost,
+          vaultAppName: vaultAwsIamRole,
+          port: vaultPort,
+          ssl: vaultEndpointProtocol === 'https',
+        })
+          .authenticate()
+          .then(r => r.auth.client_token)
+      : vaultToken;
+
+  const client = vault({
+    apiVersion: vaultApiVersion,
+    endpoint: `${vaultEndpointProtocol}://${vaultHost}:${vaultPort}`,
+    token,
+  });
+
+  const { data } = await client.read(vaultMongoCredentialPath);
+
+  return {
+    user: data[vaultMongoUsernameKey],
+    pass: data[vaultMongoUserpassKey],
+  };
 };
 
-let vaultClient: any = null;
-
-const getSecretValue = async secretPath => {
-  if (vaultClient !== null) {
-    return vaultClient.read(secretPath).then(res => res.data);
-  } else {
-    if (vaultAuthentication === 'AWS_IAM') {
-      return new vaultAuthAws({
-        host: vaultHost,
-        vaultAppName: awsIamRole,
-        port: vaultPort,
-        ssl: vaultEndpointProtocol === 'https',
-      })
-        .authenticate()
-        .then(success => {
-          vaultClient = vault({
-            ...options,
-            token: success.auth.client_token,
-          });
-          return getSecretValue(secretPath);
-        });
-    } else {
-      vaultClient = vault(options);
-      return getSecretValue(secretPath);
-    }
-  }
-};
-
-export default { getSecretValue };
+export default getCredentials;

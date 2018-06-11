@@ -1,28 +1,16 @@
+import 'babel-polyfill';
+
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
-import { getPortPromise } from 'portfinder';
-import createSchema from './graphql';
-import * as cors from 'cors';
 import * as graphqlHTTP from 'express-graphql';
-import expressEgo from 'ego-token-middleware';
 
-import {
-  egoApiAuthRequired,
-  egoApi,
-  egoApiRequireUserApproval,
-} from './config';
+import connect from 'services/mongo';
+import createSchema from './graphql';
 
-const createApp = () => {
+export default async () => {
+  await connect();
+
   const app = express();
-  app.use(cors());
-
-  app.use(
-    expressEgo({
-      required: egoApiAuthRequired,
-      egoURL: egoApi,
-      requireUserApproval: egoApiRequireUserApproval,
-    }),
-  );
 
   app.use(
     '/graphql',
@@ -50,33 +38,6 @@ const createApp = () => {
       message: req.app.get('env') === 'development' ? err.message : {},
     });
   });
+
   return app;
 };
-
-export function start() {
-  return (process.env.PORT
-    ? Promise.resolve(process.env.PORT)
-    : (getPortPromise as any)({ port: 3232 })
-  ).then(function(port) {
-    createApp()
-      .listen(port, () => console.log(`Listening on port: ${port}`))
-      .on('error', error => {
-        if (error.syscall !== 'listen') throw error;
-
-        const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
-        // handle specific listen errors with friendly messages
-        switch (error.code) {
-          case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
-            process.exit(1);
-            break;
-          case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
-            process.exit(1);
-            break;
-          default:
-            throw error;
-        }
-      });
-  });
-}

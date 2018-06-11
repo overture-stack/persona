@@ -1,24 +1,10 @@
-import {
-  mongoUsernameKey,
-  mongoUserpassKey,
-  vaultMongoCredentialPath,
-  mongoUser,
-  mongoPass,
-  mongoHost,
-  mongoDb,
-} from '../config';
-
-import vault from './vault';
 import mongoose from './mongoose';
+import getCredentials from './vault';
 
-export const getMongoCredentials = async () => {
-  return vaultMongoCredentialPath
-    ? await vault.getSecretValue(vaultMongoCredentialPath).then(r => ({
-        user: r[mongoUsernameKey],
-        pass: r[mongoUserpassKey],
-      }))
-    : { user: mongoUser, pass: mongoPass };
-};
+import { mongoHost, mongoDb, mongoUser, mongoPass } from '../config';
+
+export const getMongoCredentials = async () =>
+  (await getCredentials()) || { user: mongoUser, pass: mongoPass };
 
 export const constructMongoUri = async ({ includeDb = true } = {}) => {
   const { user, pass } = await getMongoCredentials();
@@ -31,8 +17,8 @@ export const constructMongoUri = async ({ includeDb = true } = {}) => {
 
 const connect = () =>
   new Promise(async (resolve, reject) => {
-    const mongoUri = await constructMongoUri();
-    mongoose.connect(mongoUri, { useMongoClient: true }, err => {
+    const uri = await constructMongoUri();
+    mongoose.connect(uri, { useMongoClient: true }, err => {
       if (err) {
         console.error('Error Connecting to mongo', err);
         reject(err);
