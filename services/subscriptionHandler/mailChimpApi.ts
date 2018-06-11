@@ -38,11 +38,12 @@ export const newMailchimpSubscription = async ({ user }) => {
 export const retrieveMailchimpSecret = () =>
   vault
     .getSecretValue(config.vaultSecretPath)
-    .then(({ kfMailchimpApiKey, kfMailchimpUserName }) => {
+    .then(({ kfMailchimpApiKey, kfMailchimpUserName, kfMailchimpListId }) => {
       config = {
         ...config,
         kfMailchimpApiKey,
         kfMailchimpUserName,
+        kfMailchimpListId,
       };
     })
     .catch(e => {
