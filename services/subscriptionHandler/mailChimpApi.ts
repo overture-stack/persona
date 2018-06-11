@@ -44,4 +44,9 @@ export const retrieveMailchimpSecret = () =>
         kfMailchimpApiKey,
         kfMailchimpUserName,
       };
+    })
+    .catch(e => {
+      console.log(
+        'failed to retrieve mailchimpCredential, falling back to environment config',
+      );
     });
