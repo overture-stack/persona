@@ -6,12 +6,7 @@ import * as cors from 'cors';
 import egoTokenMiddleware from 'ego-token-middleware';
 
 import createServer from './server';
-import {
-  port as defaultPort,
-  egoApi,
-  egoApiAuthRequired,
-  egoApiRequireUserApproval,
-} from './config';
+import { port as defaultPort, egoApi, egoApiAuthRequired } from './config';
 
 const start = async () => {
   const port = defaultPort || (await (getPortPromise as any)({ port: 3232 }));
