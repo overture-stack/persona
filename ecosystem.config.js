@@ -5,7 +5,7 @@ module.exports = {
     {
       name: 'persona',
       script: 'npm',
-      args: 'start',
+      args: 'app',
       watch: true,
       ignore_watch: ['[\\/\\\\]\\./', 'node_modules', 'logs'],
       instances: process.env.INSTANCES || os.cpus().length,
