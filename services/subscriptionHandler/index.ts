@@ -1,9 +1,5 @@
 import { newMailchimpSubscription } from './mailChimpApi';
-
-const sendNihSubscriptionEmail = async ({ user }) => {
-  // nih email configs
-  const nihEmail = process.env.NIH_SUBSCRIPTION_EMAIL;
-};
+import { sendNihSubscriptionEmail } from './nihEmailSubscription';
 
 export default () => async (req, res) => {
   const { user = {} } = req.body;
@@ -13,7 +9,7 @@ export default () => async (req, res) => {
     await newMailchimpSubscription({ user });
   }
   if (acceptedNihOptIn) {
-    sendNihSubscriptionEmail({ user });
+    await sendNihSubscriptionEmail({ user });
   }
   res.end();
 };
