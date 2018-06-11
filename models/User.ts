@@ -17,6 +17,10 @@ const UserSchema = new mongoose.Schema(
 
     acceptedTerms: 'boolean',
 
+    //subscription opt-ins
+    acceptedKfOptIn: 'boolean',
+    acceptedNihOptIn: 'boolean',
+
     //about me fields
     roles: [Role],
     title: 'String',
