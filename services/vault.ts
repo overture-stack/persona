@@ -14,8 +14,10 @@ import {
   vaultMongoUserpassKey,
 } from '../config';
 
-const getCredentials = async () => {
+let state: { client: any } = { client: null };
+export const vaultClient = async () => {
   if (!vaultMongoCredentialPath) return false;
+  if (state.client) return state.client;
 
   const token =
     vaultAuthentication === 'AWS_IAM'
@@ -29,14 +31,18 @@ const getCredentials = async () => {
           .then(r => r.auth.client_token)
       : vaultToken;
 
-  const client = vault({
+  state.client = vault({
     apiVersion: vaultApiVersion,
     endpoint: `${vaultEndpointProtocol}://${vaultHost}:${vaultPort}`,
     token,
   });
+  return state.client;
+};
 
+const getCredentials = async () => {
+  const client = await vaultClient();
+  if (!client) return false;
   const { data } = await client.read(vaultMongoCredentialPath);
-
   return {
     user: data[vaultMongoUsernameKey],
     pass: data[vaultMongoUserpassKey],
