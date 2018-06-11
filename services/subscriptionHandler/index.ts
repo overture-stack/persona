@@ -15,3 +15,4 @@ export default () => async (req, res) => {
 };
 
 export { retrieveMailchimpSecrets } from './mailChimpApi';
+export { retrieveEmailSecrets } from './nihEmailSubscription';
