@@ -6,8 +6,6 @@ export const port = process.env.PORT;
 
 export const egoApi = process.env.EGO_API;
 export const egoApiAuthRequired = process.env.EGO_API_AUTH_REQUIRED === 'true';
-export const egoApiRequireUserApproval =
-  process.env.EGO_API_USER_APPROVAL_REQUIRED === 'true';
 
 export const mongoHost = process.env.MONGO_HOST || 'localhost';
 export const mongoDb = process.env.MONGO_DB || 'test';
