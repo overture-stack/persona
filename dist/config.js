@@ -1,0 +1,23 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var dotenv = require("dotenv");
+dotenv.config();
+exports.port = process.env.PORT;
+exports.egoApi = process.env.EGO_API;
+exports.egoApiAuthRequired = process.env.EGO_API_AUTH_REQUIRED === 'true';
+exports.egoApiRequireUserApproval = process.env.EGO_API_USER_APPROVAL_REQUIRED === 'true';
+exports.mongoHost = process.env.MONGO_HOST || 'localhost';
+exports.mongoDb = process.env.MONGO_DB || 'test';
+exports.mongoUser = process.env.MONGO_USER;
+exports.mongoPass = process.env.MONGO_PASS;
+exports.vaultEndpointProtocol = process.env.VAULT_ENDPOINT_PROTOCOL;
+exports.vaultHost = process.env.VAULT_HOST;
+exports.vaultPort = process.env.VAULT_PORT;
+exports.vaultApiVersion = process.env.VAULT_API_VERSION;
+exports.vaultToken = process.env.VAULT_TOKEN;
+exports.vaultAuthentication = process.env.VAULT_AUTHENTICATION;
+exports.vaultAwsIamRole = process.env.AWS_IAM_ROLE;
+exports.vaultMongoCredentialPath = process.env.VAULT_MONGO_CREDENTIAL_PATH;
+exports.vaultMongoUsernameKey = process.env.MONGO_USERNAME_KEY || 'mongodb-username';
+exports.vaultMongoUserpassKey = process.env.MONGO_USERPASS_KEY || 'mongodb-pass';
+//# sourceMappingURL=config.js.map

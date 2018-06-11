@@ -1,4 +1,4 @@
-import UserModel from 'models/User';
-
-export default ({ context }: { context: any }) =>
+const self = UserModel => ({ context }: { context: any }) =>
   UserModel.findOne({ egoId: context.jwt.sub });
+
+export default self;

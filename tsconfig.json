@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "outDir": "build",
+    "outDir": "./dist",
     "module": "commonjs",
-    "target": "es6",
+    "target": "es5",
     "lib": ["es7"],
     "sourceMap": true,
     "allowJs": true,
@@ -18,15 +18,11 @@
     "noUnusedLocals": false,
     "baseUrl": "./",
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": false,
-    "paths": {
-      "models/*": ["./models/*"],
-      "graphql/*": ["./graphql/*"]
-    }
+    "allowSyntheticDefaultImports": false
   },
   "exclude": [
     "node_modules",
-    "build",
+    "dist",
     "scripts",
     "acceptance-tests",
     "webpack",

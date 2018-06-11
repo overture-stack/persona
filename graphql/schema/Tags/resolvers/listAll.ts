@@ -1,23 +1,28 @@
 import { get } from 'lodash';
 
-import UserModel from 'models/User';
-
 const matchQuery = filter => ({
   $match: { interests: new RegExp(`.*${filter}.*`, 'gi') },
 });
 
-const fetchUserInterestAggs = ({ filter, skip, size }) =>
+const fetchUserInterestAggs = ({
+  model,
+  field,
+  filter,
+  skip,
+  size,
+  dollarField = `$${field}`,
+}) =>
   new Promise<any>((res, rej) =>
-    UserModel.collection.aggregate(
+    model.collection.aggregate(
       [
         ...(filter ? [matchQuery(filter)] : []),
-        { $unwind: '$interests' },
+        { $unwind: dollarField },
         ...(filter ? [matchQuery(filter)] : []),
         {
           $facet: {
-            count: [{ $sortByCount: '$interests' }, { $count: 'interests' }],
+            count: [{ $sortByCount: dollarField }, { $count: field }],
             interests: [
-              { $sortByCount: '$interests' },
+              { $sortByCount: dollarField },
               { $skip: skip },
               { $limit: size },
             ],
@@ -28,20 +33,54 @@ const fetchUserInterestAggs = ({ filter, skip, size }) =>
     ),
   );
 
-export default async ({ args, context }: { args: any; context: any }) => {
+const listAll = ({ models, tags }) => async ({
+  args,
+  context,
+}: {
+  args: any;
+  context: any;
+}) => {
   const {
+    model,
+    field,
     filter,
     skip = 0,
     size = 10,
-  }: { filter: string; skip: number; size: number } = args;
+  }: {
+    model: string;
+    field: string;
+    filter: string;
+    skip: number;
+    size: number;
+  } = args;
 
-  const results = await fetchUserInterestAggs({ filter, skip, size });
+  if (!models[model])
+    throw new Error(
+      `Invalid model ${model}. Supported Models: ${Object.keys(tags).join(
+        ', ',
+      )}`,
+    );
+
+  if (!tags[model].includes(field))
+    throw new Error(
+      `Invalid field ${field}. Supported fields: ${tags[model].join(', ')}`,
+    );
+
+  const results = await fetchUserInterestAggs({
+    model: models[model],
+    field,
+    filter,
+    skip,
+    size,
+  });
 
   return {
-    count: get(results, '[0].count[0].interests', 0),
-    values: get(results, '[0].interests', []).map(x => ({
+    count: get(results, `[0].count[0].${field}`, 0),
+    values: get(results, `[0].${field}`, []).map(x => ({
       count: x.count,
       value: x._id,
     })),
   };
 };
+
+export default listAll;

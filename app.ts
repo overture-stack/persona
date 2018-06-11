@@ -20,14 +20,24 @@ const start = async () => {
   app.use(cors());
 
   app.use(
-    egoTokenMiddleware({
-      required: egoApiAuthRequired,
-      egoURL: egoApi,
-      requireUserApproval: egoApiRequireUserApproval,
+    await createServer({
+      ego: {
+        url: egoApi,
+        required: egoApiAuthRequired,
+        accessRules: [
+          {
+            type: 'deny',
+            route: ['/', '/(.*)'],
+            role: ['admin', 'user'],
+          },
+        ],
+      },
+      schemas: {
+        User: {},
+      },
+      tags: {},
     }),
   );
-
-  app.use(await createServer());
 
   app
     .listen(port, () => console.log(`Listening on port: ${port}`))
