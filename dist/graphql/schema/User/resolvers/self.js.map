@@ -1,1 +1,0 @@
-{"version":3,"file":"self.js","sourceRoot":"","sources":["../../../../../graphql/schema/User/resolvers/self.ts"],"names":[],"mappings":";;AAAA,IAAM,IAAI,GAAG,UAAA,SAAS,IAAI,OAAA,UAAC,EAA6B;QAA3B,oBAAO;IAClC,OAAA,SAAS,CAAC,OAAO,CAAC,EAAE,KAAK,EAAE,OAAO,CAAC,GAAG,CAAC,GAAG,EAAE,CAAC;AAA7C,CAA6C,EADrB,CACqB,CAAC;AAEhD,kBAAe,IAAI,CAAC"}
