@@ -1,35 +1,40 @@
 import { TypeComposer } from 'graphql-compose';
 
-import UserModel from 'models/User';
 import { listAll } from './resolvers';
 
-const ItemTC = TypeComposer.create(`
-  type Tag {
-    count: Int!
-    value: String!
-  }
-`);
+const generateTagsTC = ({ models, tags }) => {
+  const ItemTC = TypeComposer.create(`
+    type Tag {
+      count: Int!
+      value: String!
+    }
+  `);
 
-const TagsTC = TypeComposer.create(`
-  type Tags {
-    count: Int!
-  }
-`);
+  const TagsTC = TypeComposer.create(`
+    type Tags {
+      count: Int!
+    }
+  `);
 
-TagsTC.addFields({
-  values: [ItemTC],
-});
+  TagsTC.addFields({
+    values: [ItemTC],
+  });
 
-TagsTC.addResolver({
-  kind: 'query',
-  name: 'listAll',
-  type: TagsTC,
-  args: {
-    filter: 'String',
-    skip: 'Int',
-    size: 'Int',
-  },
-  resolve: listAll,
-});
+  TagsTC.addResolver({
+    kind: 'query',
+    name: 'listAll',
+    type: TagsTC,
+    args: {
+      model: 'String!',
+      field: 'String!',
+      filter: 'String',
+      skip: 'Int',
+      size: 'Int',
+    },
+    resolve: listAll({ models, tags }),
+  });
 
-export default TagsTC;
+  return TagsTC;
+};
+
+export default generateTagsTC;

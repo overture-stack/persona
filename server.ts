@@ -1,22 +1,34 @@
-import 'babel-polyfill';
-
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import * as graphqlHTTP from 'express-graphql';
+import egoTokenMiddleware from 'ego-token-middleware';
 
-import connect from 'services/mongo';
 import createSchema from './graphql';
+import connect from './services/mongo';
+import generateModels from './models/generateModels';
 
-export default async () => {
+const parseEgoConfig = (config: any) => {
+  const safeConfig = config || {};
+  return {
+    egoURL: safeConfig.url,
+    required: safeConfig.required,
+    accessRules: safeConfig.accessRules,
+  };
+};
+
+export default async ({ ego, schemas, tags }) => {
   await connect();
+  const graphqlSchema = createSchema({ models: generateModels(schemas), tags });
 
   const app = express();
+
+  app.use(egoTokenMiddleware(parseEgoConfig(ego)));
 
   app.use(
     '/graphql',
     bodyParser.json(),
     graphqlHTTP((err, res) => ({
-      schema: createSchema(),
+      schema: graphqlSchema,
       formatError: err => {
         res.status(err.status || 500);
         return err;

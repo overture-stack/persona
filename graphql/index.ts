@@ -1,17 +1,16 @@
 import { GQC } from 'graphql-compose';
 import { get } from 'lodash';
 
-import TagsTC from 'graphql/schema/Tags';
-import UserTC from 'graphql/schema/User';
-import UserModel from 'models/User';
+import generateUserTC from './schema/User';
+import generateTagsTC from './schema/Tags';
 
 const validToken = async ({ context }) => {
   if (!context.jwt.valid) throw new Error('You must provide valid token');
 };
 
-const isSelf = async ({ args, context }) => {
+const isSelf = models => async ({ args, context }) => {
   const _id = args._id || args.record._id;
-  const egoId = await UserModel.findOne({ _id }).then(user => user.egoId);
+  const egoId = await models.User.findOne({ _id }).then(user => user.egoId);
 
   if (args.record && args.record.egoId !== egoId) {
     throw new Error("You can't change your ego id");
@@ -36,7 +35,10 @@ const restrict = (resolver, ...restrictions) => {
   });
 };
 
-const createSchema = () => {
+const createSchema = ({ models, tags }) => {
+  const UserTC = generateUserTC(models.User);
+  const TagsTC = generateTagsTC({ models, tags });
+
   GQC.rootQuery().addFields({
     self: restrict(UserTC.getResolver('self'), validToken),
     user: restrict(UserTC.getResolver('findById'), isAdmin),
@@ -47,7 +49,11 @@ const createSchema = () => {
   GQC.rootMutation().addFields({
     userCreate: restrict(UserTC.getResolver('createOne'), validToken),
     userRemove: restrict(UserTC.getResolver('removeById'), validToken, isAdmin),
-    userUpdate: restrict(UserTC.getResolver('updateById'), validToken, isSelf),
+    userUpdate: restrict(
+      UserTC.getResolver('updateById'),
+      validToken,
+      isSelf(models),
+    ),
   });
 
   return GQC.buildSchema();

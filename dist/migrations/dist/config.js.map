@@ -1,0 +1,1 @@
+{"version":3,"file":"config.js","sourceRoot":"","sources":["../../../migrations/dist/config.js"],"names":[],"mappings":"AACI,YAAY,CAAC;AAEb,MAAM,CAAC,OAAO,GAAG;IACf,OAAO,EAAE;QACP,GAAG,EAAE,qBAAqB;QAC1B,YAAY,EAAE,MAAM;KACrB;IACD,aAAa,EAAE,YAAY;IAC3B,uBAAuB,EAAE,WAAW;CACrC,CAAA"}
