@@ -1,14 +1,12 @@
 version: "2"
 services:
-  # api:
-  #   build: .
-  #   links:
-  #     - db
-  #   ports:
-  #     - "$API_HOST_PORT:3232"
+  api:
+    build: .
+    links:
+      - db
+    ports:
+      - "$API_HOST_PORT:3232"
   db:
     image: mongo
-    ports:
-      - "27017:27017"
     expose:
       - "27017"
