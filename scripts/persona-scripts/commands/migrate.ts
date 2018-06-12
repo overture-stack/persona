@@ -20,7 +20,8 @@ const migrate = async args => {
   const configFilePath = path.join(migrationsDist, 'config.js');
 
   try {
-    if (!fs.existsSync(migrationsDist)) fs.mkdirSync(migrationsDist);
+    if (fs.existsSync(migrationsDist)) rimRaf(migrationsDist);
+    fs.mkdirSync(migrationsDist);
 
     const mongoUri = await constructMongoUri({ includeDb: false });
     const outStr = `
@@ -49,8 +50,10 @@ const migrate = async args => {
       stdio: 'inherit',
     });
   } catch (err) {
-    rimRaf(migrationsDist);
+    console.error(err);
     throw err;
+  } finally {
+    if (fs.existsSync(migrationsDist)) rimRaf(migrationsDist);
   }
 };
 
