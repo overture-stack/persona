@@ -40,7 +40,6 @@ export const vaultClient = async () => {
 
 const getCredentials = async () => {
   const client = await vaultClient();
-  if (!client) return false;
   if (!vaultMongoCredentialPath) return false;
   const { data } = await client.read(vaultMongoCredentialPath);
   return {
