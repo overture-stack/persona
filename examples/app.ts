@@ -29,9 +29,17 @@ const start = async () => {
         ],
       },
       schemas: {
-        User: {},
+        User: {
+          fields: {
+            email: 'String',
+            interests: ['String'],
+          },
+          collection: 'users',
+        },
       },
-      tags: {},
+      tags: {
+        User: ['interests'],
+      },
     }),
   );
 
