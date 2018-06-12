@@ -15,11 +15,15 @@ const migrate = async args => {
       `migrate-mongo must be globally installed to run migrations. 'npm install -g migrate-mongo'`,
     );
   }
-  const migrationsRoot = path.join(process.cwd(), MIGRATIONS_DIR);
+  const migrationsRoot = path.join(process.cwd(), 'migrations');
   const migrationsDist = path.join(migrationsRoot, 'dist');
   const configFilePath = path.join(migrationsDist, 'config.js');
+  const migrationsMigrationPath = path.join(migrationsRoot, MIGRATIONS_DIR);
 
   try {
+    if (!fs.existsSync(migrationsRoot)) fs.mkdirSync(migrationsRoot);
+    if (!fs.existsSync(migrationsMigrationPath))
+      fs.mkdirSync(migrationsMigrationPath);
     if (fs.existsSync(migrationsDist)) rimRaf(migrationsDist);
     fs.mkdirSync(migrationsDist);
 
