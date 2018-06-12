@@ -4,14 +4,13 @@
   "description": "🚧 user profile and identity management",
   "main": "dist/index.js",
   "bin": {
-    "persona-scripts": "dist/scripts/persona-scripts/index.js"
+    "persona-scripts": "dist/src/persona-scripts/index.js"
   },
   "scripts": {
     "start": "NODE_PATH=./ ts-node examples/app.ts",
     "test": "NODE_PATH=./ jest .test --notify",
     "build": "rm -rf dist && mkdir dist && NODE_PATH=./ tsc",
-    "prepare": "rm -rf dist && mkdir dist && NODE_PATH=./ tsc",
-    "postinstall": "node dist/scripts/postinstall.js"
+    "prepare": "rm -rf dist && mkdir dist && NODE_PATH=./ tsc"
   },
   "repository": {
     "type": "git",
