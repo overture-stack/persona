@@ -20,12 +20,5 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": false
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest"
-  ]
+  "exclude": ["node_modules", "dist", "acceptance-tests", "webpack", "jest"]
 }
