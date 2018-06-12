@@ -6,11 +6,11 @@ import egoTokenMiddleware from 'ego-token-middleware';
 import createSchema from './graphql';
 import connect from './services/mongo';
 import generateModels from './models/generateModels';
+import { egoApi } from './config';
 
 const parseEgoConfig = (config: any) => {
   const safeConfig = config || {};
   return {
-    egoURL: safeConfig.url,
     required: safeConfig.required,
     accessRules: safeConfig.accessRules,
   };
@@ -22,7 +22,12 @@ export default async ({ ego, schemas, tags }) => {
 
   const app = express();
 
-  app.use(egoTokenMiddleware(parseEgoConfig(ego)));
+  app.use(
+    egoTokenMiddleware({
+      egoURL: egoApi,
+      ...parseEgoConfig(ego),
+    }),
+  );
 
   app.use(
     '/graphql',
