@@ -1,2 +1,2 @@
-export { default } from './server';
-export { vaultClient } from './services/vault';
+export { default } from './src';
+export { vaultClient } from './src/services/vault';

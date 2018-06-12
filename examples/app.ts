@@ -3,14 +3,14 @@ import 'babel-polyfill';
 import * as express from 'express';
 import { getPortPromise } from 'portfinder';
 import * as cors from 'cors';
-import egoTokenMiddleware from 'ego-token-middleware';
 
-import createServer from '../server';
-import { port as defaultPort, egoApi, egoApiAuthRequired } from '../config';
+import createServer from '../index';
 
 // An example instantiation of persona
 const start = async () => {
-  const port = defaultPort || (await (getPortPromise as any)({ port: 3232 }));
+  const port = await (getPortPromise as any)({
+    port: process.env.PORT || 3232,
+  });
   const app = express();
 
   app.use(cors());
@@ -18,8 +18,8 @@ const start = async () => {
   app.use(
     await createServer({
       ego: {
-        url: egoApi,
-        required: egoApiAuthRequired,
+        url: process.env.EGO_API,
+        required: process.env.EGO_AUTH_REQUIRED || false,
         accessRules: [
           {
             type: 'deny',

@@ -2,9 +2,9 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as child_process from 'child_process';
 
-import { constructMongoUri } from '../../../services/mongo';
-import { mongoDb } from '../../../config';
-import { isInstalled, rimRaf } from '../../utils';
+import { constructMongoUri } from '../../services/mongo';
+import { mongoDb } from '../../config';
+import { isInstalled, rimRaf } from './utils';
 
 const MIGRATIONS_DIR = 'migrations';
 const CHANGELOG_COLLECTION_NAME = 'changelog';
