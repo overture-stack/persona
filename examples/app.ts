@@ -5,9 +5,10 @@ import { getPortPromise } from 'portfinder';
 import * as cors from 'cors';
 import egoTokenMiddleware from 'ego-token-middleware';
 
-import createServer from './server';
-import { port as defaultPort, egoApi, egoApiAuthRequired } from './config';
+import createServer from '../server';
+import { port as defaultPort, egoApi, egoApiAuthRequired } from '../config';
 
+// An example instantiation of persona
 const start = async () => {
   const port = defaultPort || (await (getPortPromise as any)({ port: 3232 }));
   const app = express();

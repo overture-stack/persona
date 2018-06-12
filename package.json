@@ -7,11 +7,8 @@
     "persona-scripts": "dist/scripts/persona-scripts/index.js"
   },
   "scripts": {
-    "start": "NODE_PATH=./ ts-node app.ts",
-    "watch": "NODE_PATH=./ nodemon app.ts --exec ts-node",
-    "prod": "NODE_PATH=./ pm2 start ecosystem.config.js",
+    "start": "NODE_PATH=./ ts-node examples/app.ts",
     "test": "NODE_PATH=./ jest .test --notify",
-    "persona-scripts": "NODE_PATH=./ ts-node scripts/persona-scripts",
     "build": "rm -rf dist && mkdir dist && NODE_PATH=./ tsc",
     "prepare": "rm -rf dist && mkdir dist && NODE_PATH=./ tsc",
     "postinstall": "node dist/scripts/postinstall.js"
