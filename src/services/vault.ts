@@ -16,7 +16,6 @@ import {
 
 let state: { client: any } = { client: null };
 export const vaultClient = async () => {
-  if (!vaultMongoCredentialPath) return false;
   if (state.client) return state.client;
 
   const token =
@@ -42,6 +41,7 @@ export const vaultClient = async () => {
 const getCredentials = async () => {
   const client = await vaultClient();
   if (!client) return false;
+  if (!vaultMongoCredentialPath) return false;
   const { data } = await client.read(vaultMongoCredentialPath);
   return {
     user: data[vaultMongoUsernameKey],
