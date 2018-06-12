@@ -2,4 +2,3 @@ node_modules/
 .env
 logs
 dist/
-migrations/dist/*.js
