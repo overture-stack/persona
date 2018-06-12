@@ -36,7 +36,7 @@ const restrict = (resolver, ...restrictions) => {
 };
 
 const createSchema = ({ models, tags }) => {
-  const UserTC = generateUserTC(models.User);
+  const UserTC = generateUserTC({ models });
   const TagsTC = generateTagsTC({ models, tags });
 
   GQC.rootQuery().addFields({
