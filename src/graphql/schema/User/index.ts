@@ -2,14 +2,14 @@ import { composeWithMongoose } from 'graphql-compose-mongoose';
 
 import { self as selfResolver } from './resolvers';
 
-export default UserModel => {
-  const UserTC = composeWithMongoose(UserModel, {});
+export default ({ models }) => {
+  const UserTC = composeWithMongoose(models.User, {});
 
   UserTC.addResolver({
     kind: 'query',
     name: 'self',
     type: UserTC,
-    resolve: selfResolver(UserModel),
+    resolve: selfResolver(models.User),
   });
 
   return UserTC;
