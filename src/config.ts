@@ -9,6 +9,7 @@ export const mongoDb = process.env.MONGO_DB || 'test';
 export const mongoUser = process.env.MONGO_USER;
 export const mongoPass = process.env.MONGO_PASS;
 
+export const useVault = process.env.USE_VAULT === 'true';
 export const vaultEndpointProtocol = process.env.VAULT_ENDPOINT_PROTOCOL;
 export const vaultHost = process.env.VAULT_HOST;
 export const vaultPort = process.env.VAULT_PORT;
