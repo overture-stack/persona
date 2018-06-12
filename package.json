@@ -3,13 +3,18 @@
   "version": "0.0.1",
   "description": "🚧 user profile and identity management",
   "main": "dist/index.js",
+  "bin": {
+    "persona-scripts": "dist/scripts/persona-scripts/index.js"
+  },
   "scripts": {
     "start": "NODE_PATH=./ ts-node app.ts",
     "watch": "NODE_PATH=./ nodemon app.ts --exec ts-node",
     "prod": "NODE_PATH=./ pm2 start ecosystem.config.js",
     "test": "NODE_PATH=./ jest .test --notify",
+    "persona-scripts": "NODE_PATH=./ ts-node scripts/persona-scripts",
+    "build": "rm -rf dist && mkdir dist && NODE_PATH=./ tsc",
     "prepare": "rm -rf dist && mkdir dist && NODE_PATH=./ tsc",
-    "migrate": "cd migrations && OUT_FILE='dist/config.js' ts-node writeConfig.ts && migrate-mongo -f 'dist/config.js'"
+    "postinstall": "node dist/scripts/postinstall.js"
   },
   "repository": {
     "type": "git",
@@ -22,10 +27,14 @@
     "url": "https://github.com/overture-stack/persona/issues"
   },
   "homepage": "https://github.com/overture-stack/persona#readme",
+  "peerDependencies": {
+    "migrate-mongo": "^3.0.2"
+  },
   "dependencies": {
     "@types/node": "^8.0.51",
     "babel-polyfill": "^6.26.0",
     "cors": "^2.8.4",
+    "detect-installed": "^2.0.4",
     "dotenv": "^4.0.0",
     "ego-token-middleware": "0.0.8",
     "express": "^4.16.2",
@@ -35,7 +44,8 @@
     "graphql-compose-mongoose": "^4.1.0",
     "graphql-compose-pagination": "^3.0.1",
     "lodash": "^4.17.10",
-    "migrate-mongo": "^3.0.2",
+    "minimist": "^1.2.0",
+    "minimist-string": "^1.0.2",
     "mongoose": "^4.13.1",
     "ms": "^2.0.0",
     "node-vault": "^0.8.0",
