@@ -12,10 +12,12 @@ import {
   vaultMongoCredentialPath,
   vaultMongoUsernameKey,
   vaultMongoUserpassKey,
+  useVault,
 } from '../config';
 
 let state: { client: any } = { client: null };
 export const vaultClient = async () => {
+  if (!useVault) return false;
   if (state.client) return state.client;
 
   const token =
@@ -40,7 +42,7 @@ export const vaultClient = async () => {
 
 const getCredentials = async () => {
   const client = await vaultClient();
-  if (!vaultMongoCredentialPath) return false;
+  if (!client || !vaultMongoCredentialPath) return false;
   const { data } = await client.read(vaultMongoCredentialPath);
   return {
     user: data[vaultMongoUsernameKey],
