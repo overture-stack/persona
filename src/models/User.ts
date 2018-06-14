@@ -6,6 +6,10 @@ export default {
       required: true,
       unique: true,
     },
+    isPublic: {
+      type: 'Boolean',
+      default: false,
+    },
   },
   collection: 'usermodels',
 };

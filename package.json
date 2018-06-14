@@ -10,7 +10,8 @@
     "start": "NODE_PATH=./ ts-node examples/app.ts",
     "test": "NODE_PATH=./ jest .test --notify",
     "build": "rm -rf dist && mkdir dist && NODE_PATH=./ tsc",
-    "prepare": "rm -rf dist && mkdir dist && NODE_PATH=./ tsc"
+    "prepare": "rm -rf dist && mkdir dist && NODE_PATH=./ tsc",
+    "watch": "rm -rf dist && mkdir dist && NODE_PATH=./ tsc -w"
   },
   "repository": {
     "type": "git",
@@ -67,22 +68,9 @@
       "<rootDir>/**/__tests__/**/*.(js|jsx|ts|tsx)",
       "<rootDir>/**/?(*.)(spec|test).(js|jsx|ts|tsx)"
     ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/fixtures/",
-      "setupJest.js"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "./"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json"
-    ]
+    "testPathIgnorePatterns": ["/node_modules/", "/fixtures/", "setupJest.js"],
+    "moduleDirectories": ["node_modules", "./"],
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"]
   },
   "prettier": {
     "trailingComma": "all",
