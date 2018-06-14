@@ -5,6 +5,7 @@ import egoTokenMiddleware from 'ego-token-middleware';
 
 import createSchema from './graphql';
 import connect from './services/mongo';
+import getSecrets from './services/vault';
 import generateModels from './models/generateModels';
 import { egoApi } from './config';
 
