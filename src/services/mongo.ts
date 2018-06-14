@@ -1,10 +1,29 @@
 import mongoose from './mongoose';
-import getCredentials from './vault';
+import vaultClient from './vault';
 
-import { mongoHost, mongoDb, mongoUser, mongoPass } from '../config';
+import {
+  useVault,
+  vaultMongoCredentialPath,
+  vaultMongoUsernameKey,
+  vaultMongoUserpassKey,
+  mongoHost,
+  mongoDb,
+  mongoUser,
+  mongoPass,
+} from '../config';
 
-export const getMongoCredentials = async () =>
-  (await getCredentials()) || { user: mongoUser, pass: mongoPass };
+export const getMongoCredentials = async () => {
+  if (useVault) {
+    const client = await vaultClient();
+    const { data } = await client.read(vaultMongoCredentialPath);
+    return {
+      user: data[vaultMongoUsernameKey],
+      pass: data[vaultMongoUserpassKey],
+    };
+  } else {
+    return { user: mongoUser, pass: mongoPass };
+  }
+};
 
 export const constructMongoUri = async ({ includeDb = true } = {}) => {
   const { user, pass } = await getMongoCredentials();
