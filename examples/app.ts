@@ -18,13 +18,10 @@ const start = async () => {
   app.use(
     await createServer({
       ego: {
-        url: process.env.EGO_API,
-        required: process.env.EGO_AUTH_REQUIRED || false,
         accessRules: [
           {
-            type: 'deny',
+            type: 'allow',
             route: ['/', '/(.*)'],
-            role: ['admin', 'user'],
           },
         ],
       },

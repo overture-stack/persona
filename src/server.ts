@@ -2,20 +2,13 @@ import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import * as graphqlHTTP from 'express-graphql';
 import egoTokenMiddleware from 'ego-token-middleware';
+import { get } from 'lodash';
 
 import createSchema from './graphql';
 import connect from './services/mongo';
 import getSecrets from './services/vault';
 import generateModels from './models/generateModels';
 import { egoApi } from './config';
-
-const parseEgoConfig = (config: any) => {
-  const safeConfig = config || {};
-  return {
-    required: safeConfig.required,
-    accessRules: safeConfig.accessRules,
-  };
-};
 
 export default async ({ ego, schemas, tags }) => {
   await connect();
@@ -26,7 +19,7 @@ export default async ({ ego, schemas, tags }) => {
   app.use(
     egoTokenMiddleware({
       egoURL: egoApi,
-      ...parseEgoConfig(ego),
+      accessRules: get(ego, 'accessRules', []),
     }),
   );
 
