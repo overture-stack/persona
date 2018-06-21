@@ -2,6 +2,8 @@
 
 a user profile & identity management microservice.
 
+[![Slack](http://slack.overture.bio/badge.svg)](http://slack.overture.bio)
+
 ## usage
 
 persona's main export is an express router, to be included in a parent application. an example instantiation is included in `examples/app.ts`, which is hooked up to the `npm start` script mentioned in the dev section below.
