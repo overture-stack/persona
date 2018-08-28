@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 
 // conditions
-const isAdmin = async ({ context: { jwt } }) => {
+const isAdmin = ({ context: { jwt } }) => {
   const roles = get(jwt, 'context.user.roles') || [];
   return roles.includes('ADMIN');
 };
@@ -29,14 +29,13 @@ export const selfGate = ({ models, errMsg = defaultErrorMessage }) => async ({
   args,
   context,
 }) => {
-  if (!isSelf(models)({ args, context })) {
+  if (!(await isSelf(models)({ args, context }))) {
     throw new Error(errMsg);
   }
 };
 export const adminGate = ({ errMsg = defaultErrorMessage }) => async ({
   context: { jwt },
 }) => {
-  const roles = get(jwt, 'context.user.roles') || [];
   if (!isAdmin({ context: { jwt } })) {
     throw new Error(errMsg);
   }
@@ -45,7 +44,7 @@ export const adminOrSelfGate = ({
   models,
   errMsg = defaultErrorMessage,
 }) => async ({ args, context }) => {
-  if (!(isAdmin({ context }) || isSelf(models)({ args, context }))) {
+  if (!(isAdmin({ context }) || (await isSelf(models)({ args, context })))) {
     throw new Error(errMsg);
   }
 };
