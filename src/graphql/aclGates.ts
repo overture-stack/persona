@@ -11,7 +11,7 @@ const isAdmin = ({ context: { jwt } }) => {
 };
 
 const isApplication = ({ context: { jwt } }) => {
-  const applicationStatus = get(jwt, 'context.application.status') || '';
+  const applicationStatus = get(jwt, 'context.application.status', '');
   return applicationStatus.toLowerCase() === APPROVED_STATUS;
 };
 
