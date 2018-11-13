@@ -10,7 +10,10 @@
     "start": "NODE_PATH=./ ts-node examples/app.ts",
     "test": "NODE_PATH=./ jest .test --notify",
     "build": "rm -rf dist && mkdir dist && NODE_PATH=./ tsc",
-    "prepare": "rm -rf dist && mkdir dist && NODE_PATH=./ tsc"
+    "prepare": "rm -rf dist && mkdir dist && NODE_PATH=./ tsc",
+    "dev": "concurrently --kill-others \"npm run watch\" \"npm run demon\"",
+    "demon": "NODE_PATH=./ nodemon dist/examples/app.js",
+    "watch": "NODE_PATH=./ tsc -w"
   },
   "repository": {
     "type": "git",
@@ -53,9 +56,10 @@
   },
   "devDependencies": {
     "@types/jest": "^21.1.6",
+    "concurrently": "^4.0.1",
     "jest": "^21.2.1",
     "moxios": "^0.4.0",
-    "nodemon": "^1.12.1",
+    "nodemon": "^1.18.6",
     "pm2": "^2.8.0",
     "ts-jest": "^21.2.2"
   },

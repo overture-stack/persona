@@ -5,7 +5,7 @@ import generateTagsTC from './schema/Tags';
 import {
   idGate,
   selfGate,
-  adminGate,
+  adminOrAppGate,
   adminOrSelfGate,
   validTokenGate,
 } from './aclGates';
@@ -30,14 +30,14 @@ const createSchema = ({ models, tags }) => {
     ),
     user: restrict(
       UserTC.getResolver('findById'),
-      adminGate({
+      adminOrAppGate({
         errMsg:
           'Access denied. You need Admin privileges to access this resource',
       }),
     ),
     users: restrict(
       UserTC.getResolver('pagination'),
-      adminGate({
+      adminOrAppGate({
         errMsg:
           'Access denied. You need Admin privileges to access this resource',
       }),

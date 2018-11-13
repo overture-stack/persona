@@ -1,15 +1,26 @@
 import { get } from 'lodash';
 
+const APPROVED_STATUS = 'Approved'.toLowerCase();
+
 // conditions
 const isAdmin = ({ context: { jwt } }) => {
-  const roles = get(jwt, 'context.user.roles') || [];
+  const roles = get(jwt, 'context.user.roles', []);
+  const isAdmin = roles.includes('ADMIN');
+
   return roles.includes('ADMIN');
+};
+
+const isApplication = ({ context: { jwt } }) => {
+  const applicationStatus = get(jwt, 'context.application.status') || '';
+  return applicationStatus.toLowerCase() === APPROVED_STATUS;
 };
 
 const isSelf = models => async ({ args, context }) => {
   const _id = args._id || args.record._id;
   const egoId = await models.User.findOne({ _id }).then(user => user.egoId);
-  return `${egoId}` === `${context.jwt.sub}`;
+  const isUser = `${egoId}` === `${context.jwt.sub}`;
+
+  return isUser;
 };
 
 const defaultErrorMessage = 'Access denied';
@@ -25,6 +36,7 @@ export const idGate = ({ models, errMsg = defaultErrorMessage }) => async ({
     throw new Error(errMsg);
   }
 };
+
 export const selfGate = ({ models, errMsg = defaultErrorMessage }) => async ({
   args,
   context,
@@ -33,21 +45,29 @@ export const selfGate = ({ models, errMsg = defaultErrorMessage }) => async ({
     throw new Error(errMsg);
   }
 };
-export const adminGate = ({ errMsg = defaultErrorMessage }) => async ({
+export const adminOrAppGate = ({ errMsg = defaultErrorMessage }) => async ({
   context: { jwt },
 }) => {
-  if (!isAdmin({ context: { jwt } })) {
+  const passesGate =
+    isAdmin({ context: { jwt } }) || isApplication({ context: { jwt } });
+
+  if (!passesGate) {
     throw new Error(errMsg);
   }
 };
+
 export const adminOrSelfGate = ({
   models,
   errMsg = defaultErrorMessage,
 }) => async ({ args, context }) => {
-  if (!(isAdmin({ context }) || (await isSelf(models)({ args, context })))) {
+  const passesGate =
+    isAdmin({ context }) || (await isSelf(models)({ args, context }));
+
+  if (!passesGate) {
     throw new Error(errMsg);
   }
 };
+
 export const validTokenGate = ({ errMsg = defaultErrorMessage }) => async ({
   context,
 }) => {
