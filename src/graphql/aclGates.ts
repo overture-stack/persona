@@ -5,8 +5,6 @@ const APPROVED_STATUS = 'Approved'.toLowerCase();
 // conditions
 const isAdmin = ({ context: { jwt } }) => {
   const roles = get(jwt, 'context.user.roles', []);
-  const isAdmin = roles.includes('ADMIN');
-
   return roles.includes('ADMIN');
 };
 
@@ -18,9 +16,7 @@ const isApplication = ({ context: { jwt } }) => {
 const isSelf = models => async ({ args, context }) => {
   const _id = args._id || args.record._id;
   const egoId = await models.User.findOne({ _id }).then(user => user.egoId);
-  const isUser = `${egoId}` === `${context.jwt.sub}`;
-
-  return isUser;
+  return `${egoId}` === `${context.jwt.sub}`;
 };
 
 const defaultErrorMessage = 'Access denied';
