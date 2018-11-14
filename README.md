@@ -1,6 +1,8 @@
-# @overture-stack/persona
+<h1 align="center">Persona</h1>
 
-a user profile & identity management microservice.
+<p align="center">A user profile & identity management microservice.</p>
+
+<p align="center"><img alt="Release Candidate" title="Release Candidate" src="http://www.overture.bio/img/progress-horizontal-RC.svg" width="320" /></p>
 
 [![Slack](http://slack.overture.bio/badge.svg)](http://slack.overture.bio)
 
