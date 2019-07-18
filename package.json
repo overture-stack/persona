@@ -30,12 +30,11 @@
     "migrate-mongo": "^3.0.2"
   },
   "dependencies": {
-    "@types/node": "^8.0.51",
+    "@overture-stack/ego-token-middleware": "^1.1.1",
     "babel-polyfill": "^6.26.0",
     "cors": "^2.8.4",
     "detect-installed": "^2.0.4",
     "dotenv": "^4.0.0",
-    "ego-token-middleware": "1.0.1",
     "express": "^4.16.2",
     "express-graphql": "^0.6.11",
     "graphql": "^0.11.7",
@@ -45,23 +44,24 @@
     "lodash": "^4.17.10",
     "minimist": "^1.2.0",
     "minimist-string": "^1.0.2",
-    "mongoose": "^4.13.1",
+    "mongoose": "^5.6.5",
     "ms": "^2.0.0",
     "node-vault": "^0.8.0",
     "portfinder": "^1.0.13",
-    "ts-node": "^3.3.0",
-    "typescript": "^2.6.1",
     "url-join": "^2.0.2",
     "vault-auth-aws": "^0.1.7"
   },
   "devDependencies": {
     "@types/jest": "^21.1.6",
-    "concurrently": "^4.0.1",
-    "jest": "^21.2.1",
+    "@types/node": "^8.0.51",
+    "concurrently": "^4.1.1",
+    "jest": "^24.8.0",
     "moxios": "^0.4.0",
     "nodemon": "^1.18.6",
     "pm2": "^2.8.0",
-    "ts-jest": "^21.2.2"
+    "ts-jest": "^24.0.2",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.6.1"
   },
   "jest": {
     "transform": {

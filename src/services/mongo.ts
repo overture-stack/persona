@@ -37,7 +37,7 @@ export const constructMongoUri = async ({ includeDb = true } = {}) => {
 const connect = () =>
   new Promise(async (resolve, reject) => {
     const uri = await constructMongoUri();
-    mongoose.connect(uri, { useMongoClient: true }, err => {
+    mongoose.connect(uri, { useNewUrlParser: true }, err => {
       if (err) {
         console.error('Error Connecting to mongo', err);
         reject(err);
