@@ -43,7 +43,8 @@ const connect = () =>
         reject(err);
       } else {
         console.log(`Connected to mongo at mongodb://${mongoHost}/${mongoDb}`);
-        resolve();
+        resolve(null); // null required by 'strictNullChecks'
+        // https://github.com/microsoft/TypeScript/issues/29131
       }
     });
   });
