@@ -1,4 +1,4 @@
-import { GQC } from 'graphql-compose';
+import { schemaComposer } from 'graphql-compose';
 
 import generateUserTC from './schema/User';
 import generateTagsTC from './schema/Tags';
@@ -23,7 +23,7 @@ const createSchema = ({ models, tags }) => {
 
   const invalidTokenErrorMessage = 'You must provide valid token';
 
-  GQC.rootQuery().addFields({
+  schemaComposer.Query.addFields({
     self: restrict(
       UserTC.getResolver('self'),
       validTokenGate({ errMsg: invalidTokenErrorMessage }),
@@ -45,7 +45,7 @@ const createSchema = ({ models, tags }) => {
     tags: TagsTC.getResolver('listAll'),
   });
 
-  GQC.rootMutation().addFields({
+  schemaComposer.Mutation.addFields({
     userCreate: restrict(
       UserTC.getResolver('createOne'),
       validTokenGate({ errMsg: invalidTokenErrorMessage }),
@@ -66,7 +66,7 @@ const createSchema = ({ models, tags }) => {
     ),
   });
 
-  return GQC.buildSchema();
+  return schemaComposer.buildSchema();
 };
 
 export default createSchema;
