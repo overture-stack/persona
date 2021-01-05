@@ -1,16 +1,16 @@
-import { TypeComposer } from 'graphql-compose';
+import { schemaComposer } from 'graphql-compose';
 
 import { listAll } from './resolvers';
 
 const generateTagsTC = ({ models, tags }) => {
-  const ItemTC = TypeComposer.create(`
+  const ItemTC = schemaComposer.createObjectTC(`
     type Tag {
       count: Int!
       value: String!
     }
   `);
 
-  const TagsTC = TypeComposer.create(`
+  const TagsTC = schemaComposer.createObjectTC(`
     type Tags {
       count: Int!
     }

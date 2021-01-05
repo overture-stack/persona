@@ -97,7 +97,7 @@ $ mongod
 npm start
 ```
 
-4.  personal is now running and you can access it `http://localhost:3232/graphql`
+4.  persona is now running and you can access it `http://localhost:3232/graphql`
 
 ## docker
 
